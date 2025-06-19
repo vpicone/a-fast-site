@@ -1,3 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab');
+
+html {
+  font-family: 'Roboto';
+}
+
+pre {
+  font-size: 0.8em;
+}
+
+code, pre, kbd {
+  font-family: 'Roboto Mono';
+}
+
+
 /* Force dark mode - no light mode ever */
 * {
   color-scheme: dark;
@@ -22,10 +39,6 @@ body {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-html {
-  font-family: 'Roboto', Arial, Helvetica, sans-serif;
-}
 
 @layer utilities {
   .text-balance {

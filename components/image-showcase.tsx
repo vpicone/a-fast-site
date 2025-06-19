@@ -7,8 +7,8 @@ import { Images, Zap, Clock, Gauge } from "lucide-react"
 
 interface CityImage {
   url: string
-  pathname: string
-  size: number
+  name: string
+  size?: number
 }
 
 interface ImageShowcaseProps {
@@ -39,8 +39,8 @@ export function ImageShowcase({ citySlug, cityName, images }: ImageShowcaseProps
   }
 
   const displayImages = showAll ? images : images.slice(0, 12)
-  const totalSize = images.reduce((sum, img) => sum + img.size, 0)
-  const totalSizeMB = (totalSize / (1024 * 1024)).toFixed(2)
+  const totalSize = images.reduce((sum, img) => sum + (img.size || 0), 0)
+  const totalSizeMB = totalSize > 0 ? (totalSize / (1024 * 1024)).toFixed(2) : "N/A"
 
   return (
     <div className="bg-gradient-to-br from-purple-900/10 via-pink-900/10 to-blue-900/10 border border-purple-500/20 rounded-3xl p-8 mb-12 backdrop-blur-sm">
@@ -103,7 +103,7 @@ export function ImageShowcase({ citySlug, cityName, images }: ImageShowcaseProps
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
         {displayImages.map((image, index) => (
           <div
-            key={image.pathname}
+            key={image.name}
             className="relative aspect-square bg-zinc-900/50 rounded-xl overflow-hidden border border-zinc-800 group hover:border-purple-500/50 transition-colors"
           >
             <Image
@@ -119,10 +119,10 @@ export function ImageShowcase({ citySlug, cityName, images }: ImageShowcaseProps
             {/* Image info overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
               <div className="absolute bottom-2 left-2 right-2">
-                <div className="text-xs text-white font-mono tracking-wider truncate">
-                  {image.pathname.split("/").pop()}
-                </div>
-                <div className="text-xs text-zinc-300 tracking-wider">{(image.size / 1024).toFixed(0)}KB</div>
+                <div className="text-xs text-white font-mono tracking-wider truncate">{image.name}</div>
+                {image.size && (
+                  <div className="text-xs text-zinc-300 tracking-wider">{(image.size / 1024).toFixed(0)}KB</div>
+                )}
               </div>
             </div>
           </div>

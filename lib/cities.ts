@@ -41,6 +41,7 @@ export const MAJOR_CITIES: City[] = [
 
   // Europe
   { name: "London", lat: 51.5074, lon: -0.1278, country: "United Kingdom", slug: "london" },
+  { name: "Liverpool", lat: 53.4084, lon: -2.9916, country: "United Kingdom", slug: "liverpool" },
   { name: "Paris", lat: 48.8566, lon: 2.3522, country: "France", slug: "paris" },
   { name: "Berlin", lat: 52.52, lon: 13.405, country: "Germany", slug: "berlin" },
   { name: "Madrid", lat: 40.4168, lon: -3.7038, country: "Spain", slug: "madrid" },

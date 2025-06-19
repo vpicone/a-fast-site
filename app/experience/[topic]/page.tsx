@@ -3,18 +3,18 @@ import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import { ArrowLeft, RefreshCw, MapPin, Satellite, ExternalLink, Zap, Cloud, Thermometer, Eye, Wind } from "lucide-react"
+import { ArrowLeft, RefreshCw, MapPin, Satellite, ExternalLink, Cloud } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+import { MAJOR_CITIES } from "@/lib/cities"
 
-// ---------- Types ----------
+/* ---------- Types ---------- */
 interface CityData {
   title: string
   extract: string
   thumbnail?: { source: string }
   content_urls?: { desktop: { page: string } }
-  coordinates?: { lat: number; lon: number }
 }
 
 interface ISSData {
@@ -33,32 +33,11 @@ interface WeatherData {
     windspeedKmph: string
     winddir16Point: string
   }>
-  nearest_area?: Array<{
-    areaName: Array<{ value: string }>
-    country: Array<{ value: string }>
-  }>
 }
 
-// ---------- Static data ----------
-/**
- * NOTE:  we shortened the list here for brevity.
- * Add more cities as needed – the code works for **any** city object
- * with { name, lat, lon, country, slug }.
- */
-const MAJOR_CITIES = [
-  { name: "Tokyo", lat: 35.6762, lon: 139.6503, country: "Japan", slug: "tokyo" },
-  { name: "London", lat: 51.5074, lon: -0.1278, country: "United Kingdom", slug: "london" },
-  { name: "New York City", lat: 40.7128, lon: -74.006, country: "USA", slug: "nyc" },
-  { name: "Sydney", lat: -33.8688, lon: 151.2093, country: "Australia", slug: "sydney" },
-  { name: "São Paulo", lat: -23.5505, lon: -46.6333, country: "Brazil", slug: "sao-paulo" },
-  // … (keep adding if you wish)
-]
-
-// ---------- Helpers ----------
+/* ---------- Helpers ---------- */
 const EARTH_RADIUS_KM = 6371
-function toRad(angle: number) {
-  return (angle * Math.PI) / 180
-}
+const toRad = (deg: number) => (deg * Math.PI) / 180
 function haversine(lat1: number, lon1: number, lat2: number, lon2: number) {
   const dLat = toRad(lat2 - lat1)
   const dLon = toRad(lon2 - lon1)
@@ -66,7 +45,7 @@ function haversine(lat1: number, lon1: number, lat2: number, lon2: number) {
   return 2 * EARTH_RADIUS_KM * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
 }
 
-// ---------- Data fetchers ----------
+/* ---------- Data fetchers ---------- */
 async function getCityWiki(cityName: string): Promise<CityData | null> {
   try {
     const res = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(cityName)}`, {
@@ -80,8 +59,8 @@ async function getCityWiki(cityName: string): Promise<CityData | null> {
 }
 
 async function getISS(): Promise<ISSData> {
-  // Reliable, simulated orbit
-  const p = ((Date.now() / 1000) % 5580) / 5580
+  // deterministic, simulated orbit (avoids external API flakiness)
+  const p = ((Date.now() / 1000) % 5580) / 5580 // one full orbit every 5580 s
   const lat = Math.sin(p * Math.PI * 2) * 51.6
   const lon = ((p * 360 - 180) % 360) - 180
   return {
@@ -103,31 +82,29 @@ async function getWeather(city: string): Promise<WeatherData | null> {
   }
 }
 
-// ---------- Core util ----------
-function findCity(topic: string) {
-  const slug = topic.toLowerCase()
-  return (
-    MAJOR_CITIES.find((c) => c.slug === slug) ??
-    MAJOR_CITIES.find((c) => c.name.toLowerCase().replace(/\s+/g, "-") === slug)
-  )
+/* ---------- City helpers ---------- */
+function findCity(slug: string) {
+  return MAJOR_CITIES.find((c) => c.slug === slug.toLowerCase())
 }
+
 function randomCity() {
   return MAJOR_CITIES[Math.floor(Math.random() * MAJOR_CITIES.length)]
 }
 
-// ---------- Page component ----------
+/* ---------- Metadata ---------- */
 export const metadata: Metadata = {
   title: "City Explorer + ISS + Weather",
 }
 
+/* ---------- Page component ---------- */
 export default async function ExperiencePage({
   params,
 }: {
   params: { topic: string }
 }) {
   const { topic } = params
+  const cityInfo = findCity(topic)
 
-  const cityInfo = topic.startsWith("city-") ? randomCity() : findCity(topic)
   if (!cityInfo) notFound()
 
   const [cityWiki, iss, weather] = await Promise.all([getCityWiki(cityInfo.name), getISS(), getWeather(cityInfo.name)])
@@ -137,13 +114,13 @@ export default async function ExperiencePage({
     extract: `${cityInfo.name} – dynamic demo city.`,
   }
 
-  // Distance ISS->city
+  // distance ISS → city
   const issLat = Number(iss.iss_position.latitude)
   const issLon = Number(iss.iss_position.longitude)
   const distanceKm = haversine(issLat, issLon, cityInfo.lat, cityInfo.lon)
   const issNearby = distanceKm < 500
 
-  // ---------- Render ----------
+  /* ---------- Render ---------- */
   return (
     <div className="min-h-screen bg-black text-white font-mono">
       {/* Header */}
@@ -162,94 +139,93 @@ export default async function ExperiencePage({
         </div>
       </header>
 
-      <main className="container mx-auto px-6 py-12 max-w-5xl">
-        {/* ---- TITLE ---- */}
+      <main className="container mx-auto px-6 py-12 max-w-7xl">
+        {/* Title */}
         <h1 className="text-center text-5xl md:text-7xl font-bold mb-12 leading-none tracking-tight">
           <span className="bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
             {cityData.title.toUpperCase()}
           </span>
         </h1>
 
-        {/* ---- WEATHER CARD ---- */}
-        {weather && (
-          <div className="relative overflow-hidden bg-gradient-to-br from-orange-900/10 via-yellow-900/10 to-red-900/10 border border-orange-500/20 rounded-3xl p-8 mb-12 backdrop-blur-sm">
-            <CardHeader className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-yellow-600 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/25">
-                <Cloud className="h-6 w-6 text-white" />
-              </div>
-              <CardTitle className="text-2xl tracking-wider">CURRENT_WEATHER</CardTitle>
+        {/* Main Data Grid - 3 columns on large screens */}
+        <div className="grid lg:grid-cols-3 gap-8 mb-12">
+          {/* Weather Card */}
+          {weather && (
+            <Card className="relative overflow-hidden bg-gradient-to-br from-orange-900/10 via-yellow-900/10 to-red-900/10 border border-orange-500/20 rounded-3xl p-6 backdrop-blur-sm">
+              <CardHeader className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-yellow-600 rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/25">
+                  <Cloud className="h-5 w-5 text-white" />
+                </div>
+                <CardTitle className="text-lg tracking-wider">CURRENT_WEATHER</CardTitle>
+              </CardHeader>
+
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="bg-black/20 border border-zinc-800 rounded-xl p-4 text-center">
+                    <div className="text-xs text-zinc-400 uppercase tracking-widest mb-1">TEMPERATURE</div>
+                    <div className="text-2xl font-bold tracking-wider">{weather.current_condition[0].temp_C}°C</div>
+                    <div className="text-sm text-zinc-400 tracking-wide">{weather.current_condition[0].temp_F}°F</div>
+                  </div>
+                  <div className="bg-black/20 border border-zinc-800 rounded-xl p-4 text-center">
+                    <div className="text-xs text-zinc-400 uppercase tracking-widest mb-1">CONDITION</div>
+                    <div className="text-lg font-bold tracking-wider">
+                      {weather.current_condition[0].weatherDesc[0].value.toUpperCase()}
+                    </div>
+                    <div className="text-sm text-zinc-400 tracking-wide">
+                      HUMIDITY {weather.current_condition[0].humidity}%
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-black/20 border border-zinc-800 rounded-xl p-3 text-center">
+                      <div className="text-xs text-zinc-400 uppercase tracking-widest mb-1">WIND</div>
+                      <div className="text-sm font-bold tracking-wider">
+                        {weather.current_condition[0].windspeedKmph} KM/H
+                      </div>
+                      <div className="text-xs text-zinc-500">{weather.current_condition[0].winddir16Point}</div>
+                    </div>
+                    <div className="bg-black/20 border border-zinc-800 rounded-xl p-3 text-center">
+                      <div className="text-xs text-zinc-400 uppercase tracking-widest mb-1">VISIBILITY</div>
+                      <div className="text-sm font-bold tracking-wider">
+                        {weather.current_condition[0].visibility} KM
+                      </div>
+                      <div className="text-xs text-zinc-500">
+                        {Number(weather.current_condition[0].visibility) > 10
+                          ? "EXCELLENT"
+                          : Number(weather.current_condition[0].visibility) > 5
+                            ? "GOOD"
+                            : "LIMITED"}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* City Info Card */}
+          <Card className="bg-zinc-900/50 border-zinc-800 backdrop-blur-sm">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3 tracking-wider text-lg">
+                <MapPin className="h-5 w-5 text-blue-400" /> CITY_INFORMATION
+              </CardTitle>
             </CardHeader>
-
             <CardContent>
-              <div className="grid md:grid-cols-4 gap-6">
-                {/* Temp */}
-                <Metric
-                  icon={<Thermometer className="h-4 w-4 text-orange-400" />}
-                  bg="orange-500"
-                  label="TEMPERATURE"
-                  value={`${weather.current_condition[0].temp_C}°C`}
-                  sub={weather.current_condition[0].temp_F + "°F"}
-                />
-                {/* Condition */}
-                <Metric
-                  icon={<Cloud className="h-4 w-4 text-blue-400" />}
-                  bg="blue-500"
-                  label="CONDITION"
-                  value={weather.current_condition[0].weatherDesc[0].value.toUpperCase()}
-                  sub={`HUMIDITY ${weather.current_condition[0].humidity}%`}
-                />
-                {/* Wind */}
-                <Metric
-                  icon={<Wind className="h-4 w-4 text-cyan-400" />}
-                  bg="cyan-500"
-                  label="WIND"
-                  value={weather.current_condition[0].windspeedKmph + " KM/H"}
-                  sub={weather.current_condition[0].winddir16Point}
-                />
-                {/* Visibility */}
-                <Metric
-                  icon={<Eye className="h-4 w-4 text-purple-400" />}
-                  bg="purple-500"
-                  label="VISIBILITY"
-                  value={weather.current_condition[0].visibility + " KM"}
-                  sub={
-                    Number(weather.current_condition[0].visibility) > 10
-                      ? "EXCELLENT"
-                      : Number(weather.current_condition[0].visibility) > 5
-                        ? "GOOD"
-                        : "LIMITED"
-                  }
-                />
-              </div>
-            </CardContent>
-          </div>
-        )}
+              <div className="space-y-4">
+                {cityData.thumbnail?.source && (
+                  <Image
+                    src={cityData.thumbnail.source || "/placeholder.svg"}
+                    alt={cityData.title}
+                    width={300}
+                    height={200}
+                    className="rounded-xl object-cover border border-zinc-800 w-full"
+                  />
+                )}
 
-        {/* ---- CITY INFO ---- */}
-        <Card className="bg-zinc-900/50 border-zinc-800 backdrop-blur-sm mb-12">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-3 tracking-wider text-2xl">
-              <MapPin className="h-5 w-5 text-blue-400" /> CITY_INFORMATION
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid md:grid-cols-3 gap-8">
-              {cityData.thumbnail?.source && (
-                <Image
-                  src={cityData.thumbnail.source || "/placeholder.svg"}
-                  alt={cityData.title}
-                  width={300}
-                  height={200}
-                  className="rounded-xl object-cover border border-zinc-800"
-                />
-              )}
-
-              <div className="md:col-span-2 space-y-4">
-                <p className="text-zinc-300 tracking-wide">{cityData.extract}</p>
+                <p className="text-zinc-300 tracking-wide text-sm leading-relaxed">{cityData.extract}</p>
 
                 <div className="bg-zinc-800/50 rounded-lg p-4">
-                  <p className="text-sm text-zinc-400 tracking-widest mb-1">COORDINATES</p>
-                  <code className="text-blue-400 tracking-wider">
+                  <p className="text-xs text-zinc-400 tracking-widest mb-1">COORDINATES</p>
+                  <code className="text-blue-400 tracking-wider text-sm">
                     {cityInfo.lat.toFixed(2)}°, {cityInfo.lon.toFixed(2)}°
                   </code>
                 </div>
@@ -264,47 +240,41 @@ export default async function ExperiencePage({
                   </Link>
                 )}
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
 
-        {/* ---- ISS CARD ---- */}
-        <Card className="bg-gradient-to-br from-blue-900/10 via-purple-900/10 to-cyan-900/10 border border-blue-500/20 rounded-3xl p-8 backdrop-blur-sm">
-          <CardHeader className="flex items-center gap-4 mb-6">
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/25">
-              <Satellite className="h-6 w-6 text-white" />
-            </div>
-            <CardTitle className="text-2xl tracking-wider">INTERNATIONAL_SPACE_STATION</CardTitle>
-          </CardHeader>
+          {/* ISS Card */}
+          <Card className="bg-gradient-to-br from-blue-900/10 via-purple-900/10 to-cyan-900/10 border border-blue-500/20 rounded-3xl p-6 backdrop-blur-sm">
+            <CardHeader className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/25">
+                <Satellite className="h-5 w-5 text-white" />
+              </div>
+              <CardTitle className="text-lg tracking-wider">SPACE_STATION</CardTitle>
+            </CardHeader>
 
-          <CardContent className="grid md:grid-cols-3 gap-6">
-            <Metric
-              icon={<Zap className="h-4 w-4 text-blue-400" />}
-              bg="blue-500"
-              label="LATITUDE"
-              value={iss.iss_position.latitude + "°"}
-            />
-            <Metric
-              icon={<Zap className="h-4 w-4 text-purple-400" />}
-              bg="purple-500"
-              label="LONGITUDE"
-              value={iss.iss_position.longitude + "°"}
-            />
-            <Metric
-              icon={<MapPin className="h-4 w-4 text-green-400" />}
-              bg="green-500"
-              label="DISTANCE_TO_CITY"
-              value={Math.round(distanceKm) + " KM"}
-              sub={issNearby ? "🚀 OVERHEAD!" : undefined}
-            />
-          </CardContent>
-        </Card>
+            <CardContent className="space-y-4">
+              <div className="bg-black/20 border border-zinc-800 rounded-xl p-4 text-center">
+                <div className="text-xs text-zinc-400 uppercase tracking-widest mb-1">LATITUDE</div>
+                <div className="text-2xl font-bold tracking-wider">{iss.iss_position.latitude}°</div>
+              </div>
+              <div className="bg-black/20 border border-zinc-800 rounded-xl p-4 text-center">
+                <div className="text-xs text-zinc-400 uppercase tracking-widest mb-1">LONGITUDE</div>
+                <div className="text-2xl font-bold tracking-wider">{iss.iss_position.longitude}°</div>
+              </div>
+              <div className="bg-black/20 border border-zinc-800 rounded-xl p-4 text-center">
+                <div className="text-xs text-zinc-400 uppercase tracking-widest mb-1">DISTANCE_TO_CITY</div>
+                <div className="text-2xl font-bold tracking-wider">{Math.round(distanceKm)} KM</div>
+                {issNearby && <div className="text-sm text-zinc-400 tracking-wide">🚀 OVERHEAD!</div>}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </main>
     </div>
   )
 }
 
-// ---------- Re-usable metric tile ----------
+/* ---------- Re-usable metric tile ---------- */
 function Metric({
   icon,
   bg,

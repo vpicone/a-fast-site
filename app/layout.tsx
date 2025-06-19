@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   description: "Explore random cities worldwide with live ISS tracking",
   generator: 'v0.dev'
 }
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export default function RootLayout({
   children,
@@ -22,6 +23,7 @@ export default function RootLayout({
     // <html lang="en" className={`${GeistMono.className} dark`}>
     <html lang="en">
       <body className="antialiased bg-black text-white min-h-screen">{children}</body>
+      <SpeedInsights />
     </html>
   )
 }

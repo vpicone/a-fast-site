@@ -22,6 +22,9 @@ export default function RootLayout({
   return (
     // <html lang="en" className={`${GeistMono.className} dark`}>
     <html lang="en">
+      <head>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto" rel="stylesheet" />
+      </head>
       <body className="antialiased bg-black text-white min-h-screen">{children}</body>
       <SpeedInsights />
     </html>

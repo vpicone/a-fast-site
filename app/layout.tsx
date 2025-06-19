@@ -20,9 +20,9 @@ export default function RootLayout({
     // <html lang="en" className={`${GeistMono.className} dark`}>
     <html lang="en">
       <head>
-        {/* <link href="https://fonts.googleapis.com/css?family=Geist+Mono" rel="stylesheet" /> */}
+        <link href="https://fonts.googleapis.com/css?family=Geist+Mono" rel="stylesheet" />
       </head>
-      <body className="antialiased bg-black text-white min-h-screen">{children}</body>
+      <body className="font-mono antialiased bg-black text-white min-h-screen">{children}</body>
     </html>
   )
 }

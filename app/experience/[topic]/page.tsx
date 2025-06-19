@@ -9,6 +9,9 @@ import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { MAJOR_CITIES } from "@/lib/cities"
 import { WeatherSection } from "@/components/weather-section"
+import { getCityImages } from "@/lib/blob"
+import { isInTestCohortServer } from "@/lib/test-cohort"
+import { ImageShowcase } from "@/components/image-showcase"
 
 /* ---------- Types ---------- */
 interface CityData {
@@ -143,15 +146,37 @@ export const metadata: Metadata = {
 /* ---------- Page component ---------- */
 export default async function ExperiencePage({
   params,
+  searchParams,
 }: {
   params: { topic: string }
+  searchParams: { [key: string]: string | string[] | undefined }
 }) {
   const { topic } = params
   const cityInfo = findCity(topic)
 
   if (!cityInfo) notFound()
 
-  const [cityWiki, iss, weather] = await Promise.all([getCityWiki(cityInfo.name), getISS(), getWeather(cityInfo.name)])
+  // Check if user is in test cohort
+  const urlSearchParams = new URLSearchParams(
+    Object.entries(searchParams).reduce(
+      (acc, [key, value]) => {
+        if (typeof value === "string") acc[key] = value
+        return acc
+      },
+      {} as Record<string, string>,
+    ),
+  )
+  const isTestCohort = isInTestCohortServer(urlSearchParams)
+
+  // Only fetch images for Liverpool and Chicago, and only for test cohort
+  const shouldFetchImages = isTestCohort && ["liverpool", "chicago"].includes(cityInfo.slug)
+
+  const [cityWiki, iss, weather, cityImages] = await Promise.all([
+    getCityWiki(cityInfo.name),
+    getISS(),
+    getWeather(cityInfo.name),
+    shouldFetchImages ? getCityImages(cityInfo.slug) : Promise.resolve([]),
+  ])
 
   const cityData: CityData = cityWiki ?? {
     title: cityInfo.name,
@@ -236,6 +261,11 @@ export default async function ExperiencePage({
             </div>
           </CardContent>
         </Card>
+
+        {/* Image Showcase - Test Cohort Only */}
+        {shouldFetchImages && cityImages.length > 0 && (
+          <ImageShowcase citySlug={cityInfo.slug} cityName={cityInfo.name} images={cityImages} />
+        )}
 
         {/* Weather Section - Client Component */}
         {weather && <WeatherSection weather={weather} />}

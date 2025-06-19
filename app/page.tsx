@@ -41,7 +41,7 @@ export default function HomePage() {
               <span className="text-sm text-zinc-300 tracking-wider">LIVE_DEMO</span>
             </div>
 
-            <h2 className="text-6xl md:text-8xl font-bold mb-6 leading-none tracking-tight">
+            <h2 className="text-6xl md:text-8xl font-bold mb-6 leading-none tracking-tight font-serif">
               <span className="bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
                 EXPLORE
               </span>

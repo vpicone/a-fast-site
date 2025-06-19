@@ -2,6 +2,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono');
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab');
 
+
+.font-serif {
+  font-family: 'Roboto Slab';
+}
+
 html {
   font-family: 'Roboto';
 }

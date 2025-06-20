@@ -2,25 +2,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono');
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab');
 
-
 .font-serif {
   font-family: 'Roboto Slab';
 }
 
 html {
-  font-family: 'Roboto';
+  font-family: 'Roboto', serif, Times New Roman, Times, serif;
 }
 
 pre {
   font-size: 0.8em;
 }
 
-code, pre, kbd {
-  font-family: 'Roboto Mono';
+.headline {
+  font-family: 'Roboto Slab';
+  font-weight: 700;
+  font-size: 12em;
+  font-display: block;
 }
-
-
-/* Force dark mode - no light mode ever */
+/* Force dark mode- no light mode ever */
 * {
   color-scheme: dark;
 }

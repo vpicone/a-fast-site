@@ -41,7 +41,7 @@ export default function HomePage() {
               <span className="text-sm text-zinc-300 tracking-wider">LIVE_DEMO</span>
             </div>
 
-            <h2 className="text-6xl md:text-8xl font-bold mb-6 leading-none tracking-tight font-serif">
+            <h2 className="text-6xl md:text-8xl font-bold mb-6 leading-none tracking-tight font-serif headline">
               <span className="bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
                 EXPLORE
               </span>
@@ -93,7 +93,7 @@ export default function HomePage() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <Link href={`/experience/${generateRandomCity()}`}>
+              <a href={`/experience/${generateRandomCity()}`}>
                 <Button
                   size="lg"
                   className="bg-white text-black hover:bg-zinc-100 px-8 py-6 text-lg font-bold rounded-xl shadow-2xl hover:shadow-white/10 transition-all duration-300 transform hover:scale-105 group tracking-wider"
@@ -102,8 +102,8 @@ export default function HomePage() {
                   RANDOM_CITY
                   <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
-              </Link>
-              <Link href="/experience/tokyo">
+              </a>
+              <a href="/experience/tokyo">
                 <Button
                   size="lg"
                   variant="outline"
@@ -112,7 +112,7 @@ export default function HomePage() {
                   <Satellite className="mr-3 h-5 w-5" />
                   TRY_/TOKYO
                 </Button>
-              </Link>
+              </a>
             </div>
           </div>
 

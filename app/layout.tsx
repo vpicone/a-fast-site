@@ -7,6 +7,7 @@ import "./globals.css"
 //   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
 // })
 
+
 export const metadata: Metadata = {
   title: "Dynamic City Explorer + ISS Tracker",
   description: "Explore random cities worldwide with live ISS tracking",
@@ -23,9 +24,13 @@ export default function RootLayout({
     // <html lang="en" className={`${GeistMono.className} dark`}>
     <html lang="en">
       <head>
-        <link href="https://fonts.googleapis.com/css2?family=Roboto" rel="stylesheet" />
+        <style>
+          @import url('https://fonts.googleapis.com/css2?family=Roboto');
+          @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab');
+          @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono');
+        </style>
       </head>
-      <body className="antialiased bg-black text-white min-h-screen">{children}</body>
+      <body className=" bg-black text-white min-h-screen">{children}</body>
       <SpeedInsights />
     </html>
   )

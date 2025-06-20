@@ -55,6 +55,30 @@ const chicagoImages = [
     title: "WRIGLEY_FIELD",
     description: "HISTORIC_BASEBALL_STADIUM",
   },
+  {
+    id: 7,
+    src: "/7.jpg",
+    // src: "/7.jpg?height=300&width=400&text=Chicago+Architecture",
+    alt: "Chicago Architecture",
+    title: "ARCHITECTURE_TOUR",
+    description: "WORLD_CLASS_BUILDINGS",
+  },
+  {
+    id: 8,
+    src: "/8.jpg",
+    // src: "/8.jpg?height=300&width=400&text=Deep+Dish+Pizza",
+    alt: "Deep Dish Pizza",
+    title: "DEEP_DISH_PIZZA",
+    description: "AUTHENTIC_CHICAGO_STYLE",
+  },
+  {
+    id: 9,
+    src: "/9.jpg",
+    // src: "/9.jpg?height=300&width=400&text=Wrigley+Field",
+    alt: "Wrigley Field",
+    title: "WRIGLEY_FIELD",
+    description: "HISTORIC_BASEBALL_STADIUM",
+  },
 ]
 
 export function ChicagoInteractiveAd() {
@@ -164,7 +188,7 @@ export function ChicagoInteractiveAd() {
                     index === activeImage ? "border-blue-400 scale-105" : "border-blue-700/30 hover:border-blue-600/50"
                   }`}
                 >
-                  <Image src={image.src || "/placeholder.svg"} alt={image.alt} fill className="object-cover" />
+                  <img src={image.src || "/placeholder.svg"} alt={image.alt} className="object-cover" />
                   <div
                     className={`absolute inset-0 transition-opacity duration-300 ${
                       index === activeImage ? "bg-blue-400/20" : "bg-black/20 hover:bg-black/10"

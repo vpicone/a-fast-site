@@ -1,4 +1,5 @@
 import type React from "react"
+import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -8,7 +9,75 @@ import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { MAJOR_CITIES } from "@/lib/cities"
 import { WeatherSection } from "@/components/weather-section"
-import { CityData, ISSData, WeatherData } from "@/types/experience"
+
+/* ---------- Types ---------- */
+interface CityData {
+  title: string
+  extract: string
+  thumbnail?: { source: string }
+  content_urls?: { desktop: { page: string } }
+}
+
+interface ISSData {
+  iss_position: { latitude: string; longitude: string }
+  timestamp: number
+}
+
+interface WeatherData {
+  current_condition: Array<{
+    temp_C: string
+    temp_F: string
+    FeelsLikeC: string
+    FeelsLikeF: string
+    weatherDesc: Array<{ value: string }>
+    humidity: string
+    visibility: string
+    windspeedKmph: string
+    windspeedMiles: string
+    winddir16Point: string
+    winddirDegree: string
+    pressure: string
+    pressureInches: string
+    cloudcover: string
+    uvIndex: string
+    precipMM: string
+    precipInches: string
+  }>
+  weather?: Array<{
+    date: string
+    maxtempC: string
+    maxtempF: string
+    mintempC: string
+    mintempF: string
+    sunHour: string
+    uvIndex: string
+    astronomy: Array<{
+      sunrise: string
+      sunset: string
+      moonrise: string
+      moonset: string
+      moon_phase: string
+      moon_illumination: string
+    }>
+    hourly: Array<{
+      time: string
+      tempC: string
+      tempF: string
+      windspeedKmph: string
+      winddirDegree: string
+      weatherDesc: Array<{ value: string }>
+      precipMM: string
+      humidity: string
+      visibility: string
+      pressure: string
+      cloudcover: string
+      FeelsLikeC: string
+      FeelsLikeF: string
+      chanceofrain: string
+      chanceofsnow: string
+    }>
+  }>
+}
 
 /* ---------- Helpers ---------- */
 const EARTH_RADIUS_KM = 6371
@@ -34,13 +103,28 @@ async function getCityWiki(cityName: string): Promise<CityData | null> {
 }
 
 async function getISS(): Promise<ISSData> {
-  // deterministic, simulated orbit (avoids external API flakiness)
-  const p = ((Date.now() / 1000) % 5580) / 5580 // one full orbit every 5580 s
-  const lat = Math.sin(p * Math.PI * 2) * 51.6
-  const lon = ((p * 360 - 180) % 360) - 180
-  return {
-    iss_position: { latitude: lat.toFixed(4), longitude: lon.toFixed(4) },
-    timestamp: Math.floor(Date.now() / 1000),
+  try {
+    const res = await fetch("http://api.open-notify.org/iss-now.json", {
+      next: { revalidate: 60 }, // Cache for 1 minute since ISS moves fast
+    })
+    if (!res.ok) throw new Error("ISS API failed")
+    const data = await res.json()
+    return {
+      iss_position: {
+        latitude: Number.parseFloat(data.iss_position.latitude).toFixed(4),
+        longitude: Number.parseFloat(data.iss_position.longitude).toFixed(4),
+      },
+      timestamp: data.timestamp,
+    }
+  } catch {
+    // Fallback to simulated data if API fails
+    const p = ((Date.now() / 1000) % 5580) / 5580
+    const lat = Math.sin(p * Math.PI * 2) * 51.6
+    const lon = ((p * 360 - 180) % 360) - 180
+    return {
+      iss_position: { latitude: lat.toFixed(4), longitude: lon.toFixed(4) },
+      timestamp: Math.floor(Date.now() / 1000),
+    }
   }
 }
 
@@ -66,6 +150,10 @@ function randomCity() {
   return MAJOR_CITIES[Math.floor(Math.random() * MAJOR_CITIES.length)]
 }
 
+/* ---------- Metadata ---------- */
+export const metadata: Metadata = {
+  title: "City Explorer + ISS + Weather",
+}
 
 /* ---------- Page component ---------- */
 export default async function ExperiencePage({

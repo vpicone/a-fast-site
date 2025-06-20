@@ -6,22 +6,12 @@ import { MAJOR_CITIES } from "@/lib/cities"
 import { ExternalLink } from "lucide-react"
 import { ChicagoInteractiveAd } from "@/components/chicago-interactive-ad"
 
-// Function to generate consistent colors based on city slug
-const getCityColor = (slug: string) => {
-  const colors = ['blue', 'purple', 'green', 'orange', 'pink', 'cyan', 'yellow', 'red', 'indigo', 'emerald', 'amber', 'rose']
-  const index = slug.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) % colors.length
-  return colors[index]
-}
-
 export default function HomePage() {
   // Generate a random city experience from our actual city list
   const generateRandomCity = () => {
     const citySlug = MAJOR_CITIES[Math.floor(Math.random() * MAJOR_CITIES.length)].slug
     return citySlug
   }
-
-  // picks 12 random cities from the MAJOR_CITIES list
-  const randomCitySelection = MAJOR_CITIES.sort(() => Math.random() - 0.5).slice(0, 12)
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -231,11 +221,11 @@ export default function HomePage() {
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-              {randomCitySelection.map((city) => (
+              {MAJOR_CITIES.map((city) => (
                 <Link key={city.slug} href={`/experience/${city.slug}`} className="group">
                   <div className="bg-zinc-800/50 hover:bg-zinc-800 border border-zinc-700 hover:border-zinc-600 rounded-lg p-3 text-center transition-all duration-200 group-hover:scale-105">
                     <code
-                      className={`text-sm font-bold tracking-widest text-${getCityColor(city.slug)}-400 group-hover:text-${getCityColor(city.slug)}-300`}
+                      className={`text-sm font-bold tracking-widest text-${city.color}-400 group-hover:text-${city.color}-300`}
                     >
                       {city.name}
                     </code>

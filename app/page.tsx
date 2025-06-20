@@ -4,6 +4,7 @@ import { Sparkles, MapPin, Satellite, Globe, ArrowRight, Zap, Terminal } from "l
 import Link from "next/link"
 import { MAJOR_CITIES } from "@/lib/cities"
 import { ExternalLink } from "lucide-react"
+import { ChicagoInteractiveAd } from "@/components/chicago-interactive-ad"
 
 export default function HomePage() {
   // Generate a random city experience from our actual city list
@@ -116,50 +117,6 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Quick Access Cities */}
-          <div className="bg-gradient-to-r from-zinc-900/50 to-zinc-800/50 border border-zinc-800 rounded-2xl p-8 mb-16">
-            <div className="text-center mb-8">
-              <h3 className="text-2xl font-bold text-white mb-2 tracking-wider">QUICK_ACCESS_CITIES</h3>
-              <p className="text-zinc-400 tracking-wide">CLICK ANY CITY OR GUESS YOUR OWN IN THE URL</p>
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-              {MAJOR_CITIES.map((city) => (
-                <Link key={city.slug} href={`/experience/${city.slug}`} className="group">
-                  <div className="bg-zinc-800/50 hover:bg-zinc-800 border border-zinc-700 hover:border-zinc-600 rounded-lg p-3 text-center transition-all duration-200 group-hover:scale-105">
-                    <code
-                      className={`text-sm font-bold tracking-widest text-${city.color}-400 group-hover:text-${city.color}-300`}
-                    >
-                      {city.name}
-                    </code>
-                    <div className="text-xs text-zinc-500 mt-1 tracking-wider">/{city.slug}</div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-
-            <div className="text-center mt-8">
-              <p className="text-sm text-zinc-500 tracking-wide mb-4">CAN'T FIND YOUR CITY? JUST GUESS THE URL!</p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-                <div className="bg-zinc-800/30 border border-zinc-700 rounded-lg p-3">
-                  <code className="text-zinc-400 tracking-widest">
-                    /EXPERIENCE/<span className="text-blue-400">LOS-ANGELES</span>
-                  </code>
-                </div>
-                <div className="bg-zinc-800/30 border border-zinc-700 rounded-lg p-3">
-                  <code className="text-zinc-400 tracking-widest">
-                    /EXPERIENCE/<span className="text-purple-400">SAO-PAULO</span>
-                  </code>
-                </div>
-                <div className="bg-zinc-800/30 border border-zinc-700 rounded-lg p-3">
-                  <code className="text-zinc-400 tracking-widest">
-                    /EXPERIENCE/<span className="text-green-400">CAPE-TOWN</span>
-                  </code>
-                </div>
-              </div>
-            </div>
-          </div>
-
           {/* Features Grid */}
           <div className="grid md:grid-cols-2 gap-6 mb-20">
             <Card className="bg-zinc-900/50 border-zinc-800 backdrop-blur-sm hover:bg-zinc-900/70 transition-all duration-300 group">
@@ -249,6 +206,53 @@ export default function HomePage() {
                 <code className="text-xs bg-zinc-800 text-purple-400 px-2 py-1 rounded tracking-widest">
                   &lt;500KM = 🚀
                 </code>
+              </div>
+            </div>
+          </div>
+
+          {/* Chicago Interactive Ad */}
+          <ChicagoInteractiveAd />
+
+          {/* Quick Access Cities */}
+          <div className="bg-gradient-to-r from-zinc-900/50 to-zinc-800/50 border border-zinc-800 rounded-2xl p-8 mb-16">
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold text-white mb-2 tracking-wider">QUICK_ACCESS_CITIES</h3>
+              <p className="text-zinc-400 tracking-wide">CLICK ANY CITY OR GUESS YOUR OWN IN THE URL</p>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+              {MAJOR_CITIES.map((city) => (
+                <Link key={city.slug} href={`/experience/${city.slug}`} className="group">
+                  <div className="bg-zinc-800/50 hover:bg-zinc-800 border border-zinc-700 hover:border-zinc-600 rounded-lg p-3 text-center transition-all duration-200 group-hover:scale-105">
+                    <code
+                      className={`text-sm font-bold tracking-widest text-${city.color}-400 group-hover:text-${city.color}-300`}
+                    >
+                      {city.name}
+                    </code>
+                    <div className="text-xs text-zinc-500 mt-1 tracking-wider">/{city.slug}</div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            <div className="text-center mt-8">
+              <p className="text-sm text-zinc-500 tracking-wide mb-4">CAN'T FIND YOUR CITY? JUST GUESS THE URL!</p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                <div className="bg-zinc-800/30 border border-zinc-700 rounded-lg p-3">
+                  <code className="text-zinc-400 tracking-widest">
+                    /EXPERIENCE/<span className="text-blue-400">LOS-ANGELES</span>
+                  </code>
+                </div>
+                <div className="bg-zinc-800/30 border border-zinc-700 rounded-lg p-3">
+                  <code className="text-zinc-400 tracking-widest">
+                    /EXPERIENCE/<span className="text-purple-400">SAO-PAULO</span>
+                  </code>
+                </div>
+                <div className="bg-zinc-800/30 border border-zinc-700 rounded-lg p-3">
+                  <code className="text-zinc-400 tracking-widest">
+                    /EXPERIENCE/<span className="text-green-400">CAPE-TOWN</span>
+                  </code>
+                </div>
               </div>
             </div>
           </div>

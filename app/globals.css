@@ -1,13 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto');
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono');
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab');
-
 .font-serif {
-  font-family: 'Roboto Slab';
+  font-family: "Roboto Slab";
 }
 
 html {
-  font-family: 'Roboto', serif, Times New Roman, Times, serif;
+  font-family: "Roboto", serif, Times New Roman, Times, serif;
 }
 
 pre {
@@ -15,7 +11,7 @@ pre {
 }
 
 .headline {
-  font-family: 'Roboto Slab';
+  font-family: "Roboto Slab";
   font-weight: 700;
   font-size: 12em;
   font-display: block;

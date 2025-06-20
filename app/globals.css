@@ -14,7 +14,7 @@ pre {
   font-family: "Roboto Slab";
   font-weight: 700;
   font-size: 12em;
-  font-display: block;
+  font-display: swap;
 }
 /* Force dark mode- no light mode ever */
 * {

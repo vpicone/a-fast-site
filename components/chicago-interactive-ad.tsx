@@ -9,42 +9,48 @@ import Image from "next/image"
 const chicagoImages = [
   {
     id: 1,
-    src: "/placeholder.svg?height=300&width=400&text=Chicago+Skyline",
+    // src: "/0.jpg?height=300&width=400&text=Chicago+Skyline",
+    src: "/0.jpg",
     alt: "Chicago Skyline",
     title: "ICONIC_SKYLINE",
     description: "MAGNIFICENT_MILE_VIEWS",
   },
   {
     id: 2,
-    src: "/placeholder.svg?height=300&width=400&text=Millennium+Park",
+    src: "/2.jpg",
+    // src: "/2.jpg?height=300&width=400&text=Millennium+Park",
     alt: "Millennium Park",
     title: "MILLENNIUM_PARK",
     description: "CLOUD_GATE_SCULPTURE",
   },
   {
     id: 3,
-    src: "/placeholder.svg?height=300&width=400&text=Navy+Pier",
+    src: "/3.jpg",
+    // src: "/3.jpg?height=300&width=400&text=Navy+Pier",
     alt: "Navy Pier",
     title: "NAVY_PIER",
     description: "LAKEFRONT_ENTERTAINMENT",
   },
   {
     id: 4,
-    src: "/placeholder.svg?height=300&width=400&text=Chicago+Architecture",
+    src: "/4.jpg",
+    // src: "/4.jpg?height=300&width=400&text=Chicago+Architecture",
     alt: "Chicago Architecture",
     title: "ARCHITECTURE_TOUR",
     description: "WORLD_CLASS_BUILDINGS",
   },
   {
     id: 5,
-    src: "/placeholder.svg?height=300&width=400&text=Deep+Dish+Pizza",
+    src: "/5.jpg",
+    // src: "/5.jpg?height=300&width=400&text=Deep+Dish+Pizza",
     alt: "Deep Dish Pizza",
     title: "DEEP_DISH_PIZZA",
     description: "AUTHENTIC_CHICAGO_STYLE",
   },
   {
     id: 6,
-    src: "/placeholder.svg?height=300&width=400&text=Wrigley+Field",
+    src: "/6.jpg",
+    // src: "/6.jpg?height=300&width=400&text=Wrigley+Field",
     alt: "Wrigley Field",
     title: "WRIGLEY_FIELD",
     description: "HISTORIC_BASEBALL_STADIUM",
@@ -86,10 +92,9 @@ export function ChicagoInteractiveAd() {
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
             >
-              <Image
+              <img
                 src={chicagoImages[activeImage].src || "/placeholder.svg"}
                 alt={chicagoImages[activeImage].alt}
-                fill
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>

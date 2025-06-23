@@ -6,11 +6,6 @@ export interface City {
   slug: string
 }
 
-/*
-  Full validated list (115 entries).
-  This is exactly the list you previously tested with the validation script,
-  so every slug has a matching Wikipedia entry.
-*/
 export const MAJOR_CITIES: City[] = [
   // Asia
   { name: "Tokyo", lat: 35.6762, lon: 139.6503, country: "Japan", slug: "tokyo" },
@@ -67,9 +62,6 @@ export const MAJOR_CITIES: City[] = [
   { name: "Lisbon", lat: 38.7223, lon: -9.1393, country: "Portugal", slug: "lisbon" },
   { name: "Athens", lat: 37.9838, lon: 23.7275, country: "Greece", slug: "athens" },
   { name: "Istanbul", lat: 41.0082, lon: 28.9784, country: "Turkey", slug: "istanbul" },
-  { name: "Moscow", lat: 55.7558, lon: 37.6176, country: "Russia", slug: "moscow" },
-  { name: "Saint Petersburg", lat: 59.9311, lon: 30.3609, country: "Russia", slug: "saint-petersburg" },
-  { name: "Kiev", lat: 50.4501, lon: 30.5234, country: "Ukraine", slug: "kiev" },
   { name: "Dublin", lat: 53.3498, lon: -6.2603, country: "Ireland", slug: "dublin" },
   { name: "Edinburgh", lat: 55.9533, lon: -3.1883, country: "United Kingdom", slug: "edinburgh" },
 
@@ -85,6 +77,7 @@ export const MAJOR_CITIES: City[] = [
   { name: "Dallas", lat: 32.7767, lon: -96.797, country: "United States", slug: "dallas" },
   { name: "San Jose", lat: 37.3382, lon: -121.8863, country: "United States", slug: "san-jose" },
   { name: "Austin", lat: 30.2672, lon: -97.7431, country: "United States", slug: "austin" },
+  { name: "Cincinnati", lat: 39.1031, lon: -84.512, country: "United States", slug: "cincinnati" },
   { name: "Jacksonville", lat: 30.3322, lon: -81.6557, country: "United States", slug: "jacksonville" },
   { name: "San Francisco", lat: 37.7749, lon: -122.4194, country: "United States", slug: "san-francisco" },
   { name: "Columbus", lat: 39.9612, lon: -82.9988, country: "United States", slug: "columbus" },
@@ -193,10 +186,6 @@ export const MAJOR_CITIES: City[] = [
   { name: "Doha", lat: 25.2854, lon: 51.531, country: "Qatar", slug: "doha" },
   { name: "Manama", lat: 26.0667, lon: 50.5577, country: "Bahrain", slug: "manama" },
   { name: "Muscat", lat: 23.5859, lon: 58.4059, country: "Oman", slug: "muscat" },
-  { name: "Tel Aviv", lat: 32.0853, lon: 34.7818, country: "Israel", slug: "tel-aviv" },
-  { name: "Jerusalem", lat: 31.7683, lon: 35.2137, country: "Israel", slug: "jerusalem" },
   { name: "Beirut", lat: 33.8938, lon: 35.5018, country: "Lebanon", slug: "beirut" },
   { name: "Amman", lat: 31.9454, lon: 35.9284, country: "Jordan", slug: "amman" },
-  { name: "Baghdad", lat: 33.3152, lon: 44.3661, country: "Iraq", slug: "baghdad" },
-  { name: "Tehran", lat: 35.6892, lon: 51.389, country: "Iran", slug: "tehran" },
 ]

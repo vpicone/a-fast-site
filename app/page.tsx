@@ -26,20 +26,6 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Header */}
-      <div className="p-4">
-        <h1 className="text-5xl font-bold mb-4">Welcome to the Site</h1>
-        <p className="text-xl mb-6">
-          This text loads before fonts are ready, causing layout shift.
-        </p>
-        <img
-          src="https://picsum.photos/600/400"
-          alt="Random"
-          className="w-full mb-4"
-        />
-        <div className="text-lg">
-          More content that gets pushed around when fonts/images load.
-        </div>
-      </div>
       <header className="border-b border-zinc-800 bg-black/50 backdrop-blur-xl sticky top-0 z-50">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
@@ -104,7 +90,8 @@ export default function HomePage() {
             <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 mb-8">
               <div className="flex items-center gap-3 mb-4">
                 <Terminal className="h-5 w-5 text-green-400" />
-                <span className="text-sm font-bold text-white tracking-wider">URL_PATTERN</span>
+                <span className="text-sm font-bold text-white tracking-wider">LAUNCH YOUR OWN CITY EXPERIENCE</span>
+                <span className="text-sm font-bold text-white tracking-tighter block">CLONE THE REPO, LAUNCH TO VERCEL</span>
               </div>
               <div className="bg-black/50 border border-zinc-700 rounded-lg p-4 mb-4">
                 <code className="text-lg text-green-400 tracking-widest">
@@ -285,7 +272,7 @@ export default function HomePage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div className="group">
               <div className="text-4xl font-bold text-blue-400 mb-2 group-hover:scale-110 transition-transform tracking-wider">
-                115
+                {MAJOR_CITIES.length}
               </div>
               <div className="text-sm text-zinc-500 uppercase tracking-widest">CITIES</div>
             </div>

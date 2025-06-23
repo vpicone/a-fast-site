@@ -1,6 +1,3 @@
-.font-serif {
-  font-family: "Roboto Slab";
-}
 
 html {
   font-family: "Roboto", serif, Times New Roman, Times, serif;
@@ -11,7 +8,7 @@ pre {
 }
 
 .headline {
-  font-family: "Roboto Slab";
+  font-family: "Roboto Mono";
   font-weight: 700;
   font-size: 12em;
   font-display: swap;

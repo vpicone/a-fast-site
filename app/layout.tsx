@@ -23,9 +23,9 @@ export default function RootLayout({
     // <html lang="en" className={`${GeistMono.className} dark`}>
     <html lang="en">
       <head>
-        <link href="https://fonts.googleapis.com/css2?family=Roboto" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab" rel="stylesheet" />
+        <link href="http://fonts.gstatic.com/s/roboto/v15/W5F8_SL0XFawnjxHGsZjJA.ttf" rel="stylesheet" />
+        <link href="http://fonts.gstatic.com/s/robotomono/v4/eJ4cxQe85Lo39t-LVoKa26CWcynf_cDxXwCLxiixG1c.ttf" rel="stylesheet" />
+        <link href="http://fonts.gstatic.com/s/rochester/v6/bnj8tmQBiOkdji_G_yvypg.ttf" rel="stylesheet" />
       </head>
       <body className=" bg-black text-white min-h-screen">{children}</body>
       <SpeedInsights />

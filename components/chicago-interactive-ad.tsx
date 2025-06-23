@@ -112,11 +112,13 @@ export function ChicagoInteractiveAd() {
           {/* Main Image Display */}
           <div className="relative">
             <div
-              className="relative aspect-[4/3] rounded-xl overflow-hidden border border-blue-700/30 group cursor-pointer"
+              className="relative overflow-hidden border border-blue-700/30 group cursor-pointer"
+              // className="relative aspect-[4/3] rounded-xl overflow-hidden border border-blue-700/30 group cursor-pointer"
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
             >
               <img
+                // src={chicagoImages[activeImage].src || "/placeholder.svg"}
                 src={chicagoImages[activeImage].src || "/placeholder.svg"}
                 alt={chicagoImages[activeImage].alt}
                 className="object-cover transition-transform duration-500 group-hover:scale-105"

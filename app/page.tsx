@@ -26,6 +26,20 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Header */}
+      <div className="p-4">
+        <h1 className="text-5xl font-bold mb-4">Welcome to the Site</h1>
+        <p className="text-xl mb-6">
+          This text loads before fonts are ready, causing layout shift.
+        </p>
+        <img
+          src="https://picsum.photos/600/400"
+          alt="Random"
+          className="w-full mb-4"
+        />
+        <div className="text-lg">
+          More content that gets pushed around when fonts/images load.
+        </div>
+      </div>
       <header className="border-b border-zinc-800 bg-black/50 backdrop-blur-xl sticky top-0 z-50">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">

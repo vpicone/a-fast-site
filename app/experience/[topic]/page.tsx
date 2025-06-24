@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { MAJOR_CITIES } from "@/lib/cities"
 import { WeatherSection } from "@/components/weather-section"
+import Header from "@/components/Header"
 
 /* ---------- Types ---------- */
 interface CityData {
@@ -146,15 +147,6 @@ function findCity(slug: string) {
   return MAJOR_CITIES.find((c) => c.slug === slug.toLowerCase())
 }
 
-function randomCity() {
-  return MAJOR_CITIES[Math.floor(Math.random() * MAJOR_CITIES.length)]
-}
-
-/* ---------- Metadata ---------- */
-export const metadata: Metadata = {
-  title: "City Explorer + ISS + Weather",
-}
-
 /* ---------- Page component ---------- */
 export default async function ExperiencePage({
   params,
@@ -184,25 +176,7 @@ export default async function ExperiencePage({
   /* ---------- Render ---------- */
   return (
     <div className="min-h-screen bg-black text-white font-mono">
-      {/* Header */}
-      <header className="border-b border-zinc-800 bg-black/50 backdrop-blur-xl sticky top-0 z-50">
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/">
-            <Button variant="ghost" className="tracking-wider bg-black text-white hover:bg-zinc-900 hover:text-white">
-              <ArrowLeft className="mr-2 h-4 w-4" /> BACK_TO_HOME
-            </Button>
-          </Link>
-          <Link href={`/experience/${randomCity().slug}`}>
-            <Button
-              variant="outline"
-              className="tracking-wider bg-black text-white border-zinc-700 hover:bg-zinc-900 hover:text-white"
-            >
-              <RefreshCw className="mr-2 h-4 w-4" /> RANDOM_CITY
-            </Button>
-          </Link>
-        </div>
-      </header>
-
+      <Header />
       <main className="container mx-auto px-6 py-12 max-w-5xl">
         {/* Title */}
         <h1 className="text-center text-5xl md:text-7xl font-bold mb-12 leading-none tracking-tight">

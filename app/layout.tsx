@@ -30,7 +30,7 @@ export default function RootLayout({
         <link href="http://fonts.gstatic.com/s/rochester/v6/bnj8tmQBiOkdji_G_yvypg.ttf" rel="stylesheet" />
       </head>
       <body className=" bg-black text-white min-h-screen">
-        <Header />
+        {/* <Header /> */}
         {children}
         <Footer />
       </body>

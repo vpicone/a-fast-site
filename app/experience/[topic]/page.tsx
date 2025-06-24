@@ -7,14 +7,15 @@ import { CityData } from "@/types/types"
 import { ISS } from "@/components/ISS"
 import { getCityWiki, getISSData, getWeather } from "@/lib/actions"
 import { WikiCard } from "@/components/WikiCard"
+// import { WikiCardServer } from "@/components/WikiCardServer"
 import { WeatherClient } from "@/components/WeatherClient"
 
 export default async function ExperiencePage({
   params,
 }: {
-  params: { topic: string }
+  params: Promise<{ topic: string }>
 }) {
-  const { topic } = params
+  const { topic } = await params
 
   // get the city! 
   const cityInfo = MAJOR_CITIES.find((c) => c.slug === topic.toLowerCase())
@@ -22,6 +23,12 @@ export default async function ExperiencePage({
 
   // get the city wiki, iss, and weather
   const [cityWiki, iss, weather] = await Promise.all([getCityWiki(cityInfo.name), getISSData(), getWeather(cityInfo.name)])
+  
+  // just get ISS and weather
+  // const [iss, weather] = await Promise.all([getISSData(), getWeather(cityInfo.name)])
+
+  // jsut get iss
+  // const [iss] = await Promise.all([getISSData()])
 
   // get the city data
   const cityData: CityData = cityWiki ?? {
@@ -41,10 +48,11 @@ export default async function ExperiencePage({
 
           {/* Wiki Card */}
           <WikiCard cityData={cityData} />
+          {/* {cityInfo.name && <WikiCardSingle cityWiki={cityInfo.name} />} */}
 
-        {/* Weather Section - Server Component */}
-        {/* {weather && <WeatherServer weather={weather} unit="C" />} */}
-        {weather && <WeatherClient weather={weather} />}
+          {/* Weather Section - Server Component */}
+          {/* {weather && <WeatherServer city={cityInfo.name} unit="C" />} */}
+          {weather && <WeatherClient weather={weather} />}
 
           {/* ISS Card */}
           <ISS city={cityData} iss={iss} />

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 }
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import Footer from "@/components/Footer"
-import Header from "@/components/Header"
+// import Header from "@/components/Header"
 
 export default function RootLayout({
   children,

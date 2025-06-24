@@ -1,11 +1,13 @@
 "use server"
 import { CityData, ISSData, WeatherData } from "@/types/types"
-import { revalidatePath } from "next/cache"
+
 
 export async function getCityWiki(cityName: string): Promise<CityData | null> {
   try {
     const res = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(cityName)}`, {
-      next: { revalidate: 60 * 60 },
+      // next: { 
+      //   revalidate: 60 * 60 * 24 * 30 // 30 days
+      // }
     })
     if (!res.ok) return null
     return res.json()
@@ -44,7 +46,7 @@ export async function getWeather(city: string): Promise<WeatherData | null> {
   try {
     const res = await fetch(`https://wttr.in/${encodeURIComponent(city)}?format=j1`, {
       headers: { "User-Agent": "CityExplorer/1.0" },
-      next: { revalidate: 60 * 30 },
+      // next: { revalidate: 60 * 30 }, // 30 minutes
     })
     if (!res.ok) return null
     return res.json()

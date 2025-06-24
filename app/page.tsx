@@ -14,6 +14,10 @@ export default function HomePage() {
     const citySlug = MAJOR_CITIES[Math.floor(Math.random() * MAJOR_CITIES.length)].slug
     return citySlug
   }
+  const generateRandomColor = () => {
+    const colors = ["blue", "cyan", "green", "purple", "pink", "orange", "red", "yellow"]
+    return colors[Math.floor(Math.random() * colors.length)]
+  }
   return (
       <div>
         <Header />
@@ -115,16 +119,16 @@ export default function HomePage() {
 
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 {MAJOR_CITIES.map((city) => (
-                  <Link key={city.slug} href={`/experience/${city.slug}`} className="group">
+                  <a key={city.slug} href={`/experience/${city.slug}`} className="group hover:opacity-80">
                     <div className="bg-zinc-800/50 hover:bg-zinc-800 border border-zinc-700 hover:border-zinc-600 rounded-lg p-3 text-center transition-all duration-200 group-hover:scale-105">
-                      <code
-                        className={`text-sm font-bold tracking-widest text-${city.color}-400 group-hover:text-${city.color}-300`}
+                      <span
+                        className={`text-sm font-mono font-bold tracking-widest text-${generateRandomColor()}-400`}
                       >
                         {city.name}
-                      </code>
+                      </span>
                       <div className="text-xs text-zinc-500 mt-1 tracking-wider">/{city.slug}</div>
                     </div>
-                  </Link>
+                  </a>
                 ))}
               </div>
 

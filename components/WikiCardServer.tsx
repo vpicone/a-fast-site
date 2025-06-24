@@ -4,9 +4,8 @@ import Image from "next/image";
 import { CityData } from "@/types/types";
 import { getCityWiki } from "@/lib/actions";
 
-export async function WikiCard({ cityData }: { cityData: CityData }) {
-  // const cityWiki = await getCityWiki(cityData.title)
-  // console.log(cityWiki)
+export async function WikiCardServer({ cityWiki }: { cityWiki: string }) {
+  const cityData = await getCityWiki(cityWiki);
   return (
     <Card className="bg-zinc-900/50 border-zinc-800 backdrop-blur-sm mb-12">
       <CardHeader>
@@ -16,7 +15,7 @@ export async function WikiCard({ cityData }: { cityData: CityData }) {
       </CardHeader>
       <CardContent>
         <div className="grid md:grid-cols-3 gap-8">
-          {cityData.thumbnail?.source && (
+          {cityData?.thumbnail?.source && (
             <Image
               src={cityData.thumbnail.source || "/placeholder.svg"}
               alt={cityData.title}
@@ -27,16 +26,16 @@ export async function WikiCard({ cityData }: { cityData: CityData }) {
           )}
 
           <div className="md:col-span-2 space-y-4">
-            <p className="text-zinc-300 tracking-wide">{cityData.extract}</p>
+            <p className="text-zinc-300 tracking-wide">{cityData?.extract}</p>
 
             <div className="bg-zinc-800/50 rounded-lg p-4">
               <p className="text-sm text-zinc-400 tracking-widest mb-1">COORDINATES</p>
               <code className="text-blue-400 tracking-wider">
-                {cityData.coordinates.lat.toFixed(2)}°, {cityData.coordinates.lon.toFixed(2)}°
+                {cityData?.coordinates.lat.toFixed(2)}°, {cityData?.coordinates.lon.toFixed(2)}°
               </code>
             </div>
             <a
-              href={cityData.content_urls?.desktop.page || ""}
+              href={cityData?.content_urls?.desktop.page || ""}
               target="_blank"
               className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm tracking-wider"
             >

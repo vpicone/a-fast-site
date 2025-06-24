@@ -13,6 +13,11 @@ const nextConfig = {
         hostname: "i.imgur.com",
         pathname: "/**",
       },
+      {
+        protocol: 'https',
+        hostname: 'upload.wikimedia.org',
+        pathname: '/wikipedia/**',
+      },
     ],
     formats: ["image/webp"],
   },

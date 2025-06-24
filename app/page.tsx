@@ -4,10 +4,9 @@ import { Sparkles, MapPin, Satellite, Globe, ArrowRight, Zap, Terminal } from "l
 import Link from "next/link"
 import { MAJOR_CITIES } from "@/lib/cities"
 import { ExternalLink } from "lucide-react"
-import { InteractiveAdClient } from "@/components/InteractiveAdClient"
 import Header from "@/components/Header"
-import { InteractiveAdServer } from "@/components/InteractiveAdServer"
-import Image from "next/image"
+import { InteractiveAd } from "@/components/InteractiveAd"
+// import Image from "next/image"
 
 export default function HomePage() {
   // Generate a random city experience from our actual city list
@@ -19,7 +18,6 @@ export default function HomePage() {
       <div>
         <Header />
         <main className="container mx-auto px-6 py-12 max-w-5xl">
-          <Image src="/0.jpg" alt="Chicago" width={1000} height={1000} />
           <div className="max-w-4xl mx-auto">
             {/* Hero Section */}
             <div className="text-center mb-16">
@@ -105,10 +103,8 @@ export default function HomePage() {
             </div>
 
             {/* Chicago Interactive Ad */}
-            <InteractiveAdClient />
-            
-            {/* Chicago Interactive Ad */}
-            {/* <InteractiveAdServer /> */}
+            <InteractiveAd />
+        
 
             {/* Quick Access Cities */}
             <div className="bg-gradient-to-r from-zinc-900/50 to-zinc-800/50 border border-zinc-800 rounded-2xl p-8 mb-16">

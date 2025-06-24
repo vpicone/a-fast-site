@@ -3,11 +3,12 @@ import { MapPin, Star, ArrowRight, Clock, Thermometer, Users, Camera } from "luc
 import Link from "next/link"
 import Image from "next/image"
 
-export function InteractiveAdClient() {
+export function InteractiveAd() {
   const galleryImages = [
   {
-    id: 1,
+    id: 0,
     src: "https://i.imgur.com/3kCmaYp.jpg/",
+    // src: "0.jpg",
     alt: "Chicago Skyline",
     title: "ICONIC_SKYLINE",
     description: "MAGNIFICENT_MILE_VIEWS",
@@ -15,8 +16,9 @@ export function InteractiveAdClient() {
     width: 400,
   },
   {
-    id: 2,
+    id: 1,
     src: "https://i.imgur.com/zmrbOjc.jpg/",
+    // src: "2.jpg",
     alt: "The World Famous El",
     title: "THE_WORLD_FAMOUS_EL",
     description: "NOT_TO_BE_MISSED",
@@ -24,8 +26,9 @@ export function InteractiveAdClient() {
     width: 400,
   },
   {
-    id: 3,
+    id: 2,
     src: "https://i.imgur.com/2oHJfij.jpg/",
+    // src: "2.jpg",
     alt: "Home of the Goat",
     title: "HOME_OF_THE_GOAT",
     description: "REPEAT_THE_THREEPEAT",
@@ -33,8 +36,9 @@ export function InteractiveAdClient() {
     width: 400,
   },
   {
-    id: 4,
+    id: 3,
     src: "https://i.imgur.com/Hpq2kE9.jpg/",
+    // src: "3.jpg",
     alt: "Chicago Fire Department",
     title: "CHICAGO_FIRE_DEPARTMENT",
     description: "CHICAGO_FIRE_DEPARTMENT",
@@ -42,8 +46,9 @@ export function InteractiveAdClient() {
     width: 400,
   },
   {
-    id: 5,
+    id: 4,
     src: "https://i.imgur.com/ypo4Iry.jpg/",
+    // src: "4.jpg",
     alt: "The Bean",
     title: "THE_BEAN",
     description: "THE_BEAN",
@@ -51,8 +56,9 @@ export function InteractiveAdClient() {
     width: 400,
   },
   {
-    id: 6,
+    id: 5,
     src: "https://i.imgur.com/Sy5YNW7.jpg/",
+    // src: "5.jpg",
     alt: "The Hancock Tower",
     title: "THE_HANCOCK_TOWER",
     description: "THE_HANCOCK_TOWER",
@@ -60,8 +66,9 @@ export function InteractiveAdClient() {
     width: 400,
   },
   {
-    id: 7,
+    id: 6,
     src: "https://i.imgur.com/cTPmiQg.jpg/",
+    // src: "6.jpg",
     alt: "Chicago at Night",
     title: "CHICAGO_AT_NIGHT",
     description: "CHICAGO_AT_NIGHT",
@@ -69,8 +76,9 @@ export function InteractiveAdClient() {
     width: 400,
   },
   {
-    id: 8,
+    id: 7,
     src: "https://i.imgur.com/by9SBer.jpg/",
+    // src: "7.jpg",
     alt: "Chicago from the lakefront",
     title: "CHICAGO_FROM_THE_LAKEFRONT",
     description: "CHICAGO_FROM_THE_LAKEFRONT",
@@ -78,8 +86,9 @@ export function InteractiveAdClient() {
     width: 400,
   },
   {
-    id: 9,
+    id: 8,
     src: "https://i.imgur.com/kfR6kjp.jpg/",
+    // src: "8.jpg",
     alt: "Millennium Park",
     title: "MILLENNIUM_PARK",
     description: "MILLENNIUM_PARK",

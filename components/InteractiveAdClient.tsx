@@ -91,9 +91,8 @@ export function InteractiveAdClient() {
 
   return (
     <div className="bg-gradient-to-b from-slate-900 via-blue-900/20 to-slate-900 rounded-3xl overflow-hidden mb-16 relative">
-      <Image src="/0.jpg" alt="Chicago" width={1000} height={1000} />
       <div className="relative h-[600px] overflow-hidden">
-        <Image
+        <img
           src={galleryImages[0].src}
           alt={galleryImages[0].alt}
           width={galleryImages[0].width}

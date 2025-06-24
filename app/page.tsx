@@ -7,6 +7,7 @@ import { ExternalLink } from "lucide-react"
 import { InteractiveAdClient } from "@/components/InteractiveAdClient"
 import Header from "@/components/Header"
 import { InteractiveAdServer } from "@/components/InteractiveAdServer"
+import Image from "next/image"
 
 export default function HomePage() {
   // Generate a random city experience from our actual city list
@@ -18,6 +19,7 @@ export default function HomePage() {
       <div>
         <Header />
         <main className="container mx-auto px-6 py-12 max-w-5xl">
+          <Image src="/0.jpg" alt="Chicago" width={1000} height={1000} />
           <div className="max-w-4xl mx-auto">
             {/* Hero Section */}
             <div className="text-center mb-16">

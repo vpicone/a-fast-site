@@ -1,6 +1,7 @@
 import type React from "react"
 import type { Metadata } from "next"
 import "./globals.css"
+
 // import { GeistMono } from "geist/font/mono"
 // const font = GeistMono({
 //   subsets: ['latin'],
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
 }
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import Footer from "@/components/Footer"
-// import Header from "@/components/Header"
+import Header from "@/components/Header"
 
 export default function RootLayout({
   children,
@@ -30,7 +31,7 @@ export default function RootLayout({
         <link href="http://fonts.gstatic.com/s/rochester/v6/bnj8tmQBiOkdji_G_yvypg.ttf" rel="stylesheet" />
       </head>
       <body className=" bg-black text-white min-h-screen">
-        {/* <Header /> */}
+        <Header />
         {children}
         <Footer />
       </body>

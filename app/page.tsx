@@ -20,7 +20,6 @@ export default function HomePage() {
   }
   return (
       <div>
-        <Header />
         <main className="container mx-auto px-6 py-12 max-w-5xl">
           <div className="max-w-4xl mx-auto">
             {/* Hero Section */}

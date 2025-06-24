@@ -106,7 +106,7 @@ export default function HomePage() {
             <InteractiveAdClient />
             
             {/* Chicago Interactive Ad */}
-            <InteractiveAdServer />
+            {/* <InteractiveAdServer /> */}
 
             {/* Quick Access Cities */}
             <div className="bg-gradient-to-r from-zinc-900/50 to-zinc-800/50 border border-zinc-800 rounded-2xl p-8 mb-16">

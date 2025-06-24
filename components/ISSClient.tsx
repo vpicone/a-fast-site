@@ -7,7 +7,7 @@ import { CityData, ISSData } from "@/types/types"
 import { useEffect, useState } from "react"
 import { getISSData } from "@/lib/actions"
 
-export function ISSLive({ city }: { city: CityData }) {
+export function ISSClient({ city }: { city: CityData }) {
   const [issData, setIssData] = useState<ISSData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -16,8 +16,10 @@ export function ISSLive({ city }: { city: CityData }) {
     const fetchISSData = async () => {
       try {
         setError(null)
-        const data = await getISSData()
-        setIssData(data)
+        const data = await fetch("http://api.open-notify.org/iss-now.json");
+        const json = await data.json()
+        console.log(json);
+        setIssData(json)
       } catch (err) {
         setError("Failed to fetch ISS data")
         console.error("ISS fetch error:", err)
@@ -30,7 +32,7 @@ export function ISSLive({ city }: { city: CityData }) {
     fetchISSData()
 
     // Then fetch every 30 seconds (ISS moves quickly)
-    const interval = setInterval(fetchISSData, 2000)
+    const interval = setInterval(fetchISSData, 1000)
 
     return () => clearInterval(interval)
   }, [])

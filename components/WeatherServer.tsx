@@ -2,16 +2,19 @@ import type React from "react"
 
 import { Cloud, Thermometer, Eye, Wind, Droplets, Sun, Moon, Gauge, Compass, CloudRain } from "lucide-react"
 import type { WeatherData } from "@/types/types"
-import { setTemperatureUnit } from "@/lib/actions"
 
 interface WeatherServerProps {
   weather: WeatherData
-  unit?: "C" | "F"
+  unit: "C" | "F"
 }
 
-export function WeatherServer({ weather, unit = "C" }: WeatherServerProps) {
+export function WeatherServer({ weather, unit }: WeatherServerProps) {
   return (
     <div className="relative overflow-hidden bg-gradient-to-br from-orange-900/10 via-yellow-900/10 to-red-900/10 border border-orange-500/20 rounded-3xl p-8 mb-12 backdrop-blur-sm">
+      {/* Hidden radio buttons for CSS state management */}
+      <input type="radio" id="unit-celsius" name="temperature-unit" defaultChecked className="hidden" />
+      <input type="radio" id="unit-fahrenheit" name="temperature-unit" className="hidden" />
+
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-yellow-600 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/25">
@@ -20,57 +23,48 @@ export function WeatherServer({ weather, unit = "C" }: WeatherServerProps) {
           <h2 className="text-2xl tracking-wider text-white font-bold">CURRENT_WEATHER_DATA</h2>
         </div>
 
-        <form
-          action={setTemperatureUnit}
-          className="flex items-center gap-4 bg-orange-500/20 border border-orange-500/40 rounded-xl p-3"
-        >
+        <div className="flex items-center gap-4 bg-orange-500/20 border border-orange-500/40 rounded-xl p-3">
           <div className="flex items-center gap-2">
-            <input
-              type="radio"
-              id="celsius"
-              name="unit"
-              value="C"
-              defaultChecked={unit === "C"}
-              className="w-4 h-4 text-orange-500 bg-transparent border-orange-500/40 focus:ring-orange-500 focus:ring-2"
-            />
-            <label htmlFor="celsius" className="text-white font-mono text-sm tracking-wider cursor-pointer">
+            <label
+              htmlFor="unit-celsius"
+              className="w-4 h-4 rounded-full border-2 border-orange-500/40 cursor-pointer relative flex items-center justify-center"
+            >
+              <div className="w-2 h-2 rounded-full bg-orange-500 opacity-0 transition-opacity duration-200 [#unit-celsius:checked~*_&]:opacity-100"></div>
+            </label>
+            <label htmlFor="unit-celsius" className="text-white font-mono text-sm tracking-wider cursor-pointer">
               °C
             </label>
           </div>
           <div className="flex items-center gap-2">
-            <input
-              type="radio"
-              id="fahrenheit"
-              name="unit"
-              value="F"
-              defaultChecked={unit === "F"}
-              className="w-4 h-4 text-orange-500 bg-transparent border-orange-500/40 focus:ring-orange-500 focus:ring-2"
-            />
-            <label htmlFor="fahrenheit" className="text-white font-mono text-sm tracking-wider cursor-pointer">
+            <label
+              htmlFor="unit-fahrenheit"
+              className="w-4 h-4 rounded-full border-2 border-orange-500/40 cursor-pointer relative flex items-center justify-center"
+            >
+              <div className="w-2 h-2 rounded-full bg-orange-500 opacity-0 transition-opacity duration-200 [#unit-fahrenheit:checked~*_&]:opacity-100"></div>
+            </label>
+            <label htmlFor="unit-fahrenheit" className="text-white font-mono text-sm tracking-wider cursor-pointer">
               °F
             </label>
           </div>
-        </form>
+        </div>
       </div>
 
       <div className="space-y-8">
         {/* Primary Weather Stats */}
         <div className="grid md:grid-cols-4 gap-6">
           <TemperatureMetric
-            icon={<Thermometer className="h-4 w-4 text-orange-400" />}
             bg="orange-500"
             label="TEMPERATURE"
             tempC={weather.current_condition[0].temp_C}
             tempF={weather.current_condition[0].temp_F}
-            unit={unit}
+            icon={<Thermometer className="h-4 w-4 text-orange-400" />}
           />
           <TemperatureMetric
-            icon={<Thermometer className="h-4 w-4 text-red-400" />}
             bg="red-500"
             label="FEELS_LIKE"
             tempC={weather.current_condition[0].FeelsLikeC}
             tempF={weather.current_condition[0].FeelsLikeF}
-            unit={unit}
+            icon={<Thermometer className="h-4 w-4 text-red-400" />}
           />
           <Metric
             icon={<Cloud className="h-4 w-4 text-blue-400" />}
@@ -158,20 +152,18 @@ export function WeatherServer({ weather, unit = "C" }: WeatherServerProps) {
             <h3 className="text-xl font-bold tracking-wider mb-6 text-white">TODAY'S_FORECAST</h3>
             <div className="grid md:grid-cols-3 gap-6 mb-6">
               <TemperatureMetric
-                icon={<Thermometer className="h-4 w-4 text-red-400" />}
                 bg="red-500"
                 label="MAX_TEMP"
                 tempC={weather.weather[0].maxtempC}
                 tempF={weather.weather[0].maxtempF}
-                unit={unit}
+                icon={<Thermometer className="h-4 w-4 text-red-400" />}
               />
               <TemperatureMetric
-                icon={<Thermometer className="h-4 w-4 text-blue-400" />}
                 bg="blue-500"
                 label="MIN_TEMP"
                 tempC={weather.weather[0].mintempC}
                 tempF={weather.weather[0].mintempF}
-                unit={unit}
+                icon={<Thermometer className="h-4 w-4 text-blue-400" />}
               />
               <Metric
                 icon={<Sun className="h-4 w-4 text-yellow-400" />}
@@ -227,29 +219,28 @@ function TemperatureMetric({
   label,
   tempC,
   tempF,
-  unit,
 }: {
   icon: React.ReactNode
   bg: string
   label: string
   tempC: string
   tempF: string
-  unit: "C" | "F"
 }) {
-  const primaryTemp = unit === "C" ? tempC : tempF
-  const secondaryTemp = unit === "C" ? tempF : tempC
-  const primaryUnit = unit
-  const secondaryUnit = unit === "C" ? "F" : "C"
-
   return (
     <div className="bg-black/20 border border-zinc-800 rounded-2xl p-6 h-full text-center space-y-4">
       <div className={`w-8 h-8 bg-${bg}/20 rounded-lg flex items-center justify-center mx-auto`}>{icon}</div>
       <div className="text-xs text-zinc-400 uppercase tracking-widest">{label}</div>
-      <div className="text-2xl font-bold tracking-wider text-white">
-        {primaryTemp}°{primaryUnit}
+
+      {/* Celsius Display - shown when celsius radio is checked */}
+      <div className="[#unit-celsius:checked~*_&]:block [#unit-fahrenheit:checked~*_&]:hidden">
+        <div className="text-2xl font-bold tracking-wider text-white">{tempC}°C</div>
+        <div className="text-sm text-zinc-400 tracking-wide">{tempF}°F</div>
       </div>
-      <div className="text-sm text-zinc-400 tracking-wide">
-        {secondaryTemp}°{secondaryUnit}
+
+      {/* Fahrenheit Display - shown when fahrenheit radio is checked */}
+      <div className="[#unit-celsius:checked~*_&]:hidden [#unit-fahrenheit:checked~*_&]:block">
+        <div className="text-2xl font-bold tracking-wider text-white">{tempF}°F</div>
+        <div className="text-sm text-zinc-400 tracking-wide">{tempC}°C</div>
       </div>
     </div>
   )

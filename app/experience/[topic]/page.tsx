@@ -8,7 +8,6 @@ import { ISS } from "@/components/ISS"
 import { getCityWiki, getISSData, getWeather } from "@/lib/actions"
 import { WikiCard } from "@/components/WikiCard"
 import { WeatherClient } from "@/components/WeatherClient"
-import { cookies } from "next/headers"
 
 export default async function ExperiencePage({
   params,
@@ -16,10 +15,15 @@ export default async function ExperiencePage({
   params: { topic: string }
 }) {
   const { topic } = params
+
+  // get the city! 
   const cityInfo = MAJOR_CITIES.find((c) => c.slug === topic.toLowerCase())
   if (!cityInfo) notFound()
+
+  // get the city wiki, iss, and weather
   const [cityWiki, iss, weather] = await Promise.all([getCityWiki(cityInfo.name), getISSData(), getWeather(cityInfo.name)])
-  const unit = (await cookies()).get("temperature-unit")?.value as "C" | "F" || "C"
+
+  // get the city data
   const cityData: CityData = cityWiki ?? {
     title: cityInfo.name,
     extract: `${cityInfo.name} – dynamic demo city.`,
@@ -39,7 +43,7 @@ export default async function ExperiencePage({
           <WikiCard cityData={cityData} />
 
         {/* Weather Section - Server Component */}
-        <WeatherServer weather={weather} unit={unit} />
+        {/* {weather && <WeatherServer weather={weather} unit="C" />} */}
         {weather && <WeatherClient weather={weather} />}
 
           {/* ISS Card */}

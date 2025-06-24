@@ -1,8 +1,6 @@
 "use server"
 import { CityData, ISSData, WeatherData } from "@/types/types"
-import { cookies } from "next/headers"
 import { revalidatePath } from "next/cache"
-
 
 export async function getCityWiki(cityName: string): Promise<CityData | null> {
   try {
@@ -54,19 +52,4 @@ export async function getWeather(city: string): Promise<WeatherData | null> {
     return null
   }
 }
-
-export async function setTemperatureUnit(formData: FormData) {
-  const unit = formData.get("unit") as string
-
-  // Store the unit preference in cookies
-  (await cookies()).set("temperature-unit", unit, {
-    maxAge: 60 * 60 * 24 * 365, // 1 year
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-  })
-
-  // Revalidate the current path to update the component without redirect
-  revalidatePath("/")
-}
-
 

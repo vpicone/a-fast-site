@@ -13,6 +13,8 @@ export const metadata: Metadata = {
   generator: "v0.dev",
 }
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import Footer from "@/components/Footer"
+import Header from "@/components/Header"
 
 export default function RootLayout({
   children,
@@ -27,7 +29,11 @@ export default function RootLayout({
         <link href="http://fonts.gstatic.com/s/robotomono/v4/eJ4cxQe85Lo39t-LVoKa26CWcynf_cDxXwCLxiixG1c.ttf" rel="stylesheet" />
         <link href="http://fonts.gstatic.com/s/rochester/v6/bnj8tmQBiOkdji_G_yvypg.ttf" rel="stylesheet" />
       </head>
-      <body className=" bg-black text-white min-h-screen">{children}</body>
+      <body className=" bg-black text-white min-h-screen">
+        <Header />
+        {children}
+        <Footer />
+      </body>
       <SpeedInsights />
     </html>
   )

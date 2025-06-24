@@ -1,4 +1,5 @@
 import { Sparkles } from "lucide-react"
+import Link from "next/link"
 
 export default function Header() {
     return (
@@ -11,8 +12,8 @@ export default function Header() {
                 <Sparkles className="h-4 w-4 text-white" />
               </div>
               <div>
-                <h1 className="text-lg font-bold text-white">CITY_EXPLORER</h1>
-                <p className="text-xs text-zinc-400 tracking-wider">+ ISS_TRACKER</p>
+                <h1 className="text-lg font-bold text-white"><Link href="/">CITY_EXPLORER</Link></h1>
+                <p className="text-xs text-zinc-400 tracking-wider">+ WEATHER_SATTELLITE_DATA</p>
               </div>
             </div>
             <div className="text-xs text-zinc-500 tracking-widest">VERCEL_SHIP_2025</div>

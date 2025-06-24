@@ -32,16 +32,13 @@ export function WikiCard({ cityData }: { cityData: CityData }) {
                 {cityData.coordinates.lat.toFixed(2)}°, {cityData.coordinates.lon.toFixed(2)}°
               </code>
             </div>
-
-            {cityData.content_urls && (
-              <Link
-                href={cityData.content_urls.desktop.page}
-                target="_blank"
-                className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm tracking-wider"
-              >
-                LEARN_MORE_ON_WIKIPEDIA <ExternalLink className="h-4 w-4" />
-              </Link>
-            )}
+            <a
+              href={cityData.content_urls?.desktop.page || ""}
+              target="_blank"
+              className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm tracking-wider"
+            >
+              LEARN_MORE_ON_WIKIPEDIA <ExternalLink className="h-4 w-4" />
+            </a>
           </div>
         </div>
       </CardContent>

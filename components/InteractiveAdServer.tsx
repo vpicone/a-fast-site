@@ -1,6 +1,3 @@
-"use client"
-
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { MapPin, Star, ArrowRight, Camera, Clock, Thermometer } from "lucide-react"
 import Link from "next/link"
@@ -9,8 +6,7 @@ import Image from "next/image"
 const chicagoImages = [
   {
     id: 1,
-    // src: "/0.jpg",
-    src: "https://i.imgur.com/3kCmaYp.jpg/", 
+    src: "https://i.imgur.com/3kCmaYp.jpg/",
     alt: "Chicago Skyline",
     title: "ICONIC_SKYLINE",
     description: "MAGNIFICENT_MILE_VIEWS",
@@ -19,7 +15,6 @@ const chicagoImages = [
   },
   {
     id: 2,
-    // src: "/2.jpg",
     src: "https://i.imgur.com/zmrbOjc.jpg/",
     alt: "The World Famous El",
     title: "THE_WORLD_FAMOUS_EL",
@@ -30,7 +25,6 @@ const chicagoImages = [
   {
     id: 3,
     src: "https://i.imgur.com/2oHJfij.jpg/",
-    // src: "/3.jpg",
     alt: "Home of the Goat",
     title: "HOME_OF_THE_GOAT",
     description: "REPEAT_THE_THREEPEAT",
@@ -40,7 +34,6 @@ const chicagoImages = [
   {
     id: 4,
     src: "https://i.imgur.com/Hpq2kE9.jpg/",
-    // src: "/4.jpg",
     alt: "Chicago Fire Department",
     title: "CHICAGO_FIRE_DEPARTMENT",
     description: "CHICAGO_FIRE_DEPARTMENT",
@@ -50,7 +43,6 @@ const chicagoImages = [
   {
     id: 5,
     src: "https://i.imgur.com/ypo4Iry.jpg/",
-    // src: "/5.jpg",
     alt: "The Bean",
     title: "THE_BEAN",
     description: "THE_BEAN",
@@ -59,8 +51,7 @@ const chicagoImages = [
   },
   {
     id: 6,
-    src: "https://i.imgur.com/Sy5YNW7.jpg/", 
-    // src: "/6.jpg",
+    src: "https://i.imgur.com/Sy5YNW7.jpg/",
     alt: "The Hancock Tower",
     title: "THE_HANCOCK_TOWER",
     description: "THE_HANCOCK_TOWER",
@@ -70,7 +61,6 @@ const chicagoImages = [
   {
     id: 7,
     src: "https://i.imgur.com/cTPmiQg.jpg/",
-    // src: "/7.jpg",
     alt: "Chicago at Night",
     title: "CHICAGO_AT_NIGHT",
     description: "CHICAGO_AT_NIGHT",
@@ -80,7 +70,6 @@ const chicagoImages = [
   {
     id: 8,
     src: "https://i.imgur.com/by9SBer.jpg/",
-    // src: "/8.jpg",
     alt: "Chicago from the lakefront",
     title: "CHICAGO_FROM_THE_LAKEFRONT",
     description: "CHICAGO_FROM_THE_LAKEFRONT",
@@ -90,7 +79,6 @@ const chicagoImages = [
   {
     id: 9,
     src: "https://i.imgur.com/kfR6kjp.jpg/",
-    // src: "/9.jpg",
     alt: "Millennium Park",
     title: "MILLENNIUM_PARK",
     description: "MILLENNIUM_PARK",
@@ -99,9 +87,13 @@ const chicagoImages = [
   },
 ]
 
-export function ChicagoInteractiveAd() {
-  const [activeImage, setActiveImage] = useState(0)
-  const [isHovered, setIsHovered] = useState(false)
+interface InteractiveAdServerProps {
+  searchParams?: { image?: string }
+}
+
+export function InteractiveAdServer({ searchParams }: InteractiveAdServerProps = {}) {
+  const activeImage = searchParams?.image ? Number.parseInt(searchParams.image) : 0
+  const validActiveImage = activeImage >= 0 && activeImage < chicagoImages.length ? activeImage : 0
 
   return (
     <div className="bg-gradient-to-r from-blue-900/20 via-cyan-900/20 to-blue-900/20 border border-blue-800/30 rounded-2xl p-8 mb-16 relative overflow-hidden">
@@ -129,16 +121,10 @@ export function ChicagoInteractiveAd() {
         <div className="grid lg:grid-cols-2 gap-8 items-center">
           {/* Main Image Display */}
           <div className="relative">
-            <div
-              className="relative overflow-hidden border border-blue-700/30 group cursor-pointer"
-              // className="relative aspect-[4/3] rounded-xl overflow-hidden border border-blue-700/30 group cursor-pointer"
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
-            >
+            <div className="relative overflow-hidden border border-blue-700/30 group cursor-pointer hover-container">
               <img
-                // src={chicagoImages[activeImage].src || "/placeholder.svg"}
-                src={chicagoImages[activeImage].src}
-                alt={chicagoImages[activeImage].alt}
+                src={chicagoImages[validActiveImage].src || "/placeholder.svg"}
+                alt={chicagoImages[validActiveImage].alt}
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
@@ -147,30 +133,28 @@ export function ChicagoInteractiveAd() {
               <div className="absolute bottom-4 left-4 right-4">
                 <div className="bg-black/70 backdrop-blur-sm border border-blue-700/30 rounded-lg p-4">
                   <h4 className="text-white font-bold tracking-wider text-lg mb-1">
-                    {chicagoImages[activeImage].title}
+                    {chicagoImages[validActiveImage].title}
                   </h4>
-                  <p className="text-blue-200 text-sm tracking-wide">{chicagoImages[activeImage].description}</p>
+                  <p className="text-blue-200 text-sm tracking-wide">{chicagoImages[validActiveImage].description}</p>
                 </div>
               </div>
 
               {/* Hover Overlay */}
-              {isHovered && (
-                <div className="absolute inset-0 bg-blue-500/10 flex items-center justify-center">
-                  <div className="bg-white/20 backdrop-blur-sm rounded-full p-3">
-                    <Camera className="h-6 w-6 text-white" />
-                  </div>
+              <div className="absolute inset-0 bg-blue-500/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="bg-white/20 backdrop-blur-sm rounded-full p-3">
+                  <Camera className="h-6 w-6 text-white" />
                 </div>
-              )}
+              </div>
             </div>
 
             {/* Image Counter */}
             <div className="flex items-center justify-center gap-2 mt-4">
               {chicagoImages.map((_, index) => (
-                <button
+                <Link
                   key={index}
-                  onClick={() => setActiveImage(index)}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                    index === activeImage ? "bg-blue-400 w-8" : "bg-blue-700/50 hover:bg-blue-600/70"
+                  href={`?image=${index}`}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 block ${
+                    index === validActiveImage ? "bg-blue-400 w-8" : "bg-blue-700/50 hover:bg-blue-600/70"
                   }`}
                 />
               ))}
@@ -201,20 +185,22 @@ export function ChicagoInteractiveAd() {
             {/* Thumbnail Grid */}
             <div className="grid grid-cols-3 gap-2 mb-6">
               {chicagoImages.map((image, index) => (
-                <button
+                <Link
                   key={image.id}
-                  onClick={() => setActiveImage(index)}
-                  className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all duration-300 ${
-                    index === activeImage ? "border-blue-400 scale-105" : "border-blue-700/30 hover:border-blue-600/50"
+                  href={`?image=${index}`}
+                  className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all duration-300 block ${
+                    index === validActiveImage
+                      ? "border-blue-400 scale-105"
+                      : "border-blue-700/30 hover:border-blue-600/50"
                   }`}
                 >
                   <Image src={image.src || "/placeholder.svg"} alt={image.alt} fill className="object-cover" />
                   <div
                     className={`absolute inset-0 transition-opacity duration-300 ${
-                      index === activeImage ? "bg-blue-400/20" : "bg-black/20 hover:bg-black/10"
+                      index === validActiveImage ? "bg-blue-400/20" : "bg-black/20 hover:bg-black/10"
                     }`}
                   ></div>
-                </button>
+                </Link>
               ))}
             </div>
 

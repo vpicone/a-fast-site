@@ -1,60 +1,15 @@
-"use client"
-
 import type React from "react"
 
-import { useState } from "react"
 import { Cloud, Thermometer, Eye, Wind, Droplets, Sun, Moon, Gauge, Compass, CloudRain } from "lucide-react"
+import type { WeatherData } from "@/types/types"
+import { setTemperatureUnit } from "@/lib/actions"
 
-interface WeatherData {
-  current_condition: Array<{
-    temp_C: string
-    temp_F: string
-    FeelsLikeC: string
-    FeelsLikeF: string
-    weatherDesc: Array<{ value: string }>
-    humidity: string
-    visibility: string
-    windspeedKmph: string
-    windspeedMiles: string
-    winddir16Point: string
-    winddirDegree: string
-    pressure: string
-    pressureInches: string
-    cloudcover: string
-    uvIndex: string
-    precipMM: string
-    precipInches: string
-  }>
-  weather?: Array<{
-    date: string
-    maxtempC: string
-    maxtempF: string
-    mintempC: string
-    mintempF: string
-    sunHour: string
-    uvIndex: string
-    astronomy: Array<{
-      sunrise: string
-      sunset: string
-      moonrise: string
-      moonset: string
-      moon_phase: string
-      moon_illumination: string
-    }>
-  }>
-}
-
-interface WeatherSectionProps {
+interface WeatherServerProps {
   weather: WeatherData
+  unit?: "C" | "F"
 }
 
-export function WeatherSection({ weather }: WeatherSectionProps) {
-  const [unit, setUnit] = useState<"C" | "F">("C")
-
-  const toggleUnit = () => {
-    setUnit(unit === "C" ? "F" : "C")
-  }
-
+export function WeatherServer({ weather, unit = "C" }: WeatherServerProps) {
   return (
     <div className="relative overflow-hidden bg-gradient-to-br from-orange-900/10 via-yellow-900/10 to-red-900/10 border border-orange-500/20 rounded-3xl p-8 mb-12 backdrop-blur-sm">
       <div className="flex items-center justify-between mb-6">
@@ -64,12 +19,38 @@ export function WeatherSection({ weather }: WeatherSectionProps) {
           </div>
           <h2 className="text-2xl tracking-wider text-white font-bold">CURRENT_WEATHER_DATA</h2>
         </div>
-        <button
-          onClick={toggleUnit}
-          className="bg-orange-500/20 hover:bg-orange-500/30 border border-orange-500/40 text-white px-4 py-2 rounded-xl tracking-wider font-mono text-sm transition-colors"
+
+        <form
+          action={setTemperatureUnit}
+          className="flex items-center gap-4 bg-orange-500/20 border border-orange-500/40 rounded-xl p-3"
         >
-          SWITCH_TO_°{unit === "C" ? "F" : "C"}
-        </button>
+          <div className="flex items-center gap-2">
+            <input
+              type="radio"
+              id="celsius"
+              name="unit"
+              value="C"
+              defaultChecked={unit === "C"}
+              className="w-4 h-4 text-orange-500 bg-transparent border-orange-500/40 focus:ring-orange-500 focus:ring-2"
+            />
+            <label htmlFor="celsius" className="text-white font-mono text-sm tracking-wider cursor-pointer">
+              °C
+            </label>
+          </div>
+          <div className="flex items-center gap-2">
+            <input
+              type="radio"
+              id="fahrenheit"
+              name="unit"
+              value="F"
+              defaultChecked={unit === "F"}
+              className="w-4 h-4 text-orange-500 bg-transparent border-orange-500/40 focus:ring-orange-500 focus:ring-2"
+            />
+            <label htmlFor="fahrenheit" className="text-white font-mono text-sm tracking-wider cursor-pointer">
+              °F
+            </label>
+          </div>
+        </form>
       </div>
 
       <div className="space-y-8">

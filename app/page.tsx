@@ -4,8 +4,9 @@ import { Sparkles, MapPin, Satellite, Globe, ArrowRight, Zap, Terminal } from "l
 import Link from "next/link"
 import { MAJOR_CITIES } from "@/lib/cities"
 import { ExternalLink } from "lucide-react"
-import { ChicagoInteractiveAd } from "@/components/chicago-interactive-ad"
+import { InteractiveAdClient } from "@/components/InteractiveAdClient"
 import Header from "@/components/Header"
+import { InteractiveAdServer } from "@/components/InteractiveAdServer"
 
 export default function HomePage() {
   // Generate a random city experience from our actual city list
@@ -13,7 +14,6 @@ export default function HomePage() {
     const citySlug = MAJOR_CITIES[Math.floor(Math.random() * MAJOR_CITIES.length)].slug
     return citySlug
   }
-
   return (
       <div>
         <Header />
@@ -103,7 +103,10 @@ export default function HomePage() {
             </div>
 
             {/* Chicago Interactive Ad */}
-            <ChicagoInteractiveAd />
+            <InteractiveAdClient />
+            
+            {/* Chicago Interactive Ad */}
+            <InteractiveAdServer />
 
             {/* Quick Access Cities */}
             <div className="bg-gradient-to-r from-zinc-900/50 to-zinc-800/50 border border-zinc-800 rounded-2xl p-8 mb-16">

@@ -7,7 +7,7 @@ export function InteractiveAdClient() {
   const galleryImages = [
   {
     id: 1,
-    src: "/0.jpg",
+    src: "https://i.imgur.com/3kCmaYp.jpg/",
     alt: "Chicago Skyline",
     title: "ICONIC_SKYLINE",
     description: "MAGNIFICENT_MILE_VIEWS",
@@ -181,10 +181,11 @@ export function InteractiveAdClient() {
               }`}
             >
               <div className={`relative ${index === 0 ? "h-80 lg:h-full" : "h-48"}`}>
-                <Image
+                <img
                   src={image.src || "/placeholder.svg"}
                   alt={image.alt}
-                  fill
+                  width={image.width}
+                  height={image.height}
                   className="object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>

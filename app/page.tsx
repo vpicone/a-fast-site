@@ -119,7 +119,7 @@ export default function HomePage() {
 
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 {MAJOR_CITIES.map((city) => (
-                  <Link key={city.slug} href={`/experience/${city.slug}`} className="group hover:opacity-80">
+                  <a key={city.slug} href={`/experience/${city.slug}`} className="group hover:opacity-80">
                     <div className="bg-zinc-800/50 hover:bg-zinc-800 border border-zinc-700 hover:border-zinc-600 rounded-lg p-3 text-center transition-all duration-200 group-hover:scale-105">
                       <span
                         className={`text-sm font-mono font-bold tracking-widest text-${generateRandomColor()}-400`}
@@ -128,7 +128,7 @@ export default function HomePage() {
                       </span>
                       <div className="text-xs text-zinc-500 mt-1 tracking-wider">/{city.slug}</div>
                     </div>
-                  </Link>
+                  </a>
                 ))}
               </div>
 

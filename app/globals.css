@@ -1,18 +1,8 @@
 
-html {
-  font-family: "Roboto", serif, Times New Roman, Times, serif;
-}
-
 pre {
   font-size: 0.8em;
 }
 
-.headline {
-  font-family: "Roboto Mono", monospace;
-  font-weight: 700;
-  font-size: 12em;
-  font-display: swap;
-}
 /* Force dark mode- no light mode ever */
 * {
   color-scheme: dark;

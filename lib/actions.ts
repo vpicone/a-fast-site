@@ -52,7 +52,7 @@ export async function getWeather(city: string): Promise<WeatherData | null> {
       `https://wttr.in/${encodeURIComponent(city)}?format=j1`,
       {
         headers: { "User-Agent": "CityExplorer/1.0" },
-        // next: { revalidate: 60 * 30 }, // 30 minutes
+        next: { revalidate: 60 * 30 }, // 30 minutes
       }
     );
     if (!res.ok) return null;

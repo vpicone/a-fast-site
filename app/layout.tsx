@@ -8,11 +8,6 @@ import "./globals.css"
 //   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
 // })
 
-export const metadata: Metadata = {
-  title: "Dynamic City Explorer + ISS Tracker",
-  description: "Explore random cities worldwide with live ISS tracking",
-  generator: "v0.dev",
-}
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import Footer from "@/components/Footer"
 import Header from "@/components/Header"

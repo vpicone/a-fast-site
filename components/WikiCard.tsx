@@ -2,11 +2,8 @@ import { ExternalLink, Link, MapPin } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import Image from "next/image";
 import { CityData } from "@/types/types";
-import { getCityWiki } from "@/lib/actions";
 
 export async function WikiCard({ cityData }: { cityData: CityData }) {
-  // const cityWiki = await getCityWiki(cityData.title)
-  // console.log(cityWiki)
   return (
     <Card className="bg-zinc-900/50 border-zinc-800 backdrop-blur-sm mb-12">
       <CardHeader>

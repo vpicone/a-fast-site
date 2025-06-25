@@ -3,7 +3,7 @@ import { MapPin, Satellite, Zap } from "lucide-react"
 import { Metric } from "./Metric"
 import { CityData, ISSData } from "@/types/types"
 
-export async function ISS({ city, iss }: { city: CityData, iss: ISSData }) {
+export async function ISSCard({ city, iss }: { city: CityData, iss: ISSData }) {
   const issLat = Number(iss.iss_position.latitude)
   const issLon = Number(iss.iss_position.longitude)
   const cityLat = Number(city.coordinates.lat)

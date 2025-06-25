@@ -1,43 +1,19 @@
-"use client"
-
 import { haversine } from "@/lib/utils"
 import { MapPin, Satellite, Zap } from "lucide-react"
 import { Metric } from "./Metric"
-import { CityData, ISSData } from "@/types/types"
-import { useEffect, useState } from "react"
+import type { CityData } from "@/types/types"
 import { getISSData } from "@/lib/actions"
 
-export function ISSClient({ city }: { city: CityData }) {
-  const [issData, setIssData] = useState<ISSData | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+interface ISSStreamProps {
+  city: CityData
+}
 
-  useEffect(() => {
-    const fetchISSData = async () => {
-      try {
-        setError(null)
-        const data = await fetch("http://api.open-notify.org/iss-now.json");
-        const json = await data.json()
-        console.log(json);
-        setIssData(json)
-      } catch (err) {
-        setError("Failed to fetch ISS data")
-        console.error("ISS fetch error:", err)
-      } finally {
-        setLoading(false)
-      }
-    }
+export async function ISSStream({ city }: ISSStreamProps) {
+  // Fetch ISS data on the server
+  const issData = await getISSData()
 
-    // Fetch immediately
-    fetchISSData()
-
-    // Then fetch every 30 seconds (ISS moves quickly)
-    const interval = setInterval(fetchISSData, 5000)
-
-    return () => clearInterval(interval)
-  }, [])
-
-  if (loading) {
+  // Error state
+  if (!issData) {
     return (
       <div className="bg-gradient-to-br from-blue-900/10 via-purple-900/10 to-cyan-900/10 border border-blue-500/20 rounded-3xl p-8 backdrop-blur-sm">
         <div className="flex items-center gap-4 mb-6">
@@ -46,21 +22,7 @@ export function ISSClient({ city }: { city: CityData }) {
           </div>
           <h2 className="text-2xl tracking-wider text-white font-bold">INTERNATIONAL_SPACE_STATION</h2>
         </div>
-        <div className="text-center text-blue-400">Loading ISS data...</div>
-      </div>
-    )
-  }
-
-  if (error || !issData) {
-    return (
-      <div className="bg-gradient-to-br from-blue-900/10 via-purple-900/10 to-cyan-900/10 border border-blue-500/20 rounded-3xl p-8 backdrop-blur-sm">
-        <div className="flex items-center gap-4 mb-6">
-          <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/25">
-            <Satellite className="h-6 w-6 text-white" />
-          </div>
-          <h2 className="text-2xl tracking-wider text-white font-bold">INTERNATIONAL_SPACE_STATION</h2>
-        </div>
-        <div className="text-center text-red-400">{error || "No ISS data available"}</div>
+        <div className="text-center text-red-400">Unable to fetch ISS data</div>
       </div>
     )
   }
@@ -103,10 +65,10 @@ export function ISSClient({ city }: { city: CityData }) {
           sub={issNearby ? "🚀 OVERHEAD!" : undefined}
         />
       </div>
-      
+
       <div className="mt-4 text-xs text-blue-400/70 text-center">
         Last updated: {new Date(issData.timestamp * 1000).toLocaleTimeString()}
       </div>
     </div>
   )
-} 
+}

@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Cloud, Thermometer, Eye, Wind, Droplets, Sun, Moon, Gauge, Compass, CloudRain } from "lucide-react"
 import { WeatherData } from "@/types/types"
 
-export function WeatherClient({ weather }: { weather: WeatherData }) {
+export function WeatherCard({ weather }: { weather: WeatherData }) {
   const [unit, setUnit] = useState<"C" | "F">("C")
 
   const toggleUnit = () => {

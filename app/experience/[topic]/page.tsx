@@ -29,11 +29,16 @@ export default async function ExperiencePage({
   if (!cityInfo) notFound()
 
   const [cityWiki, iss, weather] = await Promise.all([getCityWiki(cityInfo.name), getISSData(), getWeather(cityInfo.name)])
-  const cityData: CityData = {
+  const cityData = cityWiki ?? {
     title: cityInfo.name,
     extract: `${cityInfo.name} – dynamic demo city.`,
     coordinates: { lat: cityInfo.lat, lon: cityInfo.lon }
   }
+  // const cityData: CityData = {
+  //   title: cityInfo.name,
+  //   extract: `${cityInfo.name} – dynamic demo city.`,
+  //   coordinates: { lat: cityInfo.lat, lon: cityInfo.lon }
+  // }
     return (
       <div className="min-h-screen bg-black text-white">
         <main className="container mx-auto px-6 py-12 max-w-5xl">

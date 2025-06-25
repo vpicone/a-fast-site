@@ -32,7 +32,7 @@ export function ISSClient({ city }: { city: CityData }) {
     fetchISSData()
 
     // Then fetch every 30 seconds (ISS moves quickly)
-    const interval = setInterval(fetchISSData, 1000)
+    const interval = setInterval(fetchISSData, 5000)
 
     return () => clearInterval(interval)
   }, [])

@@ -3,9 +3,10 @@ import type { Metadata } from "next"
 import "./globals.css"
 
 // import { GeistMono } from "geist/font/mono"
-// const font = GeistMono({
+// import { Roboto_Mono } from "next/font/google"
+// const font = Roboto_Mono({
 //   subsets: ['latin'],
-//   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+//   weight: ['100', '200', '300', '400', '500', '600', '700'],
 // })
 
 import { SpeedInsights } from "@vercel/speed-insights/next"
@@ -19,6 +20,7 @@ export default function RootLayout({
 }) {
   return (
     // <html lang="en" className={`${GeistMono.className} dark`}>
+    // <html lang="en" className={`${font.className} dark`}>
     <html lang="en">
       <head>
         <link href="http://fonts.gstatic.com/s/roboto/v15/W5F8_SL0XFawnjxHGsZjJA.ttf" rel="stylesheet" />

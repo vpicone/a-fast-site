@@ -1,13 +1,21 @@
 import type React from "react"
 import { notFound } from "next/navigation"
 import { MAJOR_CITIES } from "@/lib/cities"
-// import { WeatherServer } from "@/components/WeatherServer"
 import { CityData } from "@/types/types"
-import { ISS } from "@/components/ISS"
 import { getCityWiki, getISSData, getWeather } from "@/lib/actions"
-import { WikiCard } from "@/components/WikiCard"
-// import { WikiCardServer } from "@/components/WikiCardServer"
-import { WeatherClient } from "@/components/WeatherClient"
+
+// SSR Components
+// import { ISSCard } from "@/components/ISSCard"
+// import { WikiCard } from "@/components/WikiCard"
+// import { WeatherCard } from "@/components/WeatherCard"
+
+import { Suspense } from "react"
+import { ErrorBoundary } from "next/dist/client/components/error-boundary"
+import ErrorComponent from "@/components/ErrorComponent"
+import { WikiStream } from "@/components/WikiStream"
+import { ISSStream } from "@/components/ISSStream"
+import { WeatherStream } from "@/components/WeatherStream"
+import { Loading } from "@/components/Loading"
 
 export default async function ExperiencePage({
   params,
@@ -20,17 +28,14 @@ export default async function ExperiencePage({
   const cityInfo = MAJOR_CITIES.find((c) => c.slug === topic.toLowerCase())
   if (!cityInfo) notFound()
 
-  // get the city wiki, iss, and weather
-  const [cityWiki, iss, weather] = await Promise.all([getCityWiki(cityInfo.name), getISSData(), getWeather(cityInfo.name)])
-  
-  // just get ISS and weather
-  // const [iss, weather] = await Promise.all([getISSData(), getWeather(cityInfo.name)])
+  // const [cityWiki, iss, weather] = await Promise.all([getCityWiki(cityInfo.name), getISSData(), getWeather(cityInfo.name)])
 
-  // jsut get iss
-  // const [iss] = await Promise.all([getISSData()])
-
-  // get the city data
-  const cityData: CityData = cityWiki ?? {
+  // const cityData: CityData = cityWiki ?? {
+  //   title: cityInfo.name,
+  //   extract: `${cityInfo.name} – dynamic demo city.`,
+  //   coordinates: { lat: cityInfo.lat, lon: cityInfo.lon }
+  // }
+  const cityData: CityData = {
     title: cityInfo.name,
     extract: `${cityInfo.name} – dynamic demo city.`,
     coordinates: { lat: cityInfo.lat, lon: cityInfo.lon }
@@ -44,17 +49,23 @@ export default async function ExperiencePage({
             </span>
           </h1>
 
-          {/* Wiki Card */}
-          <WikiCard cityData={cityData} />
-          {/* {cityInfo.name && <WikiCardSingle cityWiki={cityInfo.name} />} */}
+          {/* SSR Components */}
+          {/* <WikiCard cityData={cityData} />
+          {weather && <WeatherCard weather={weather} />}
+          <ISSCard city={cityData} iss={iss} /> */}
 
-          {/* Weather Section - Server Component */}
-          {/* {weather && <WeatherServer city={cityInfo.name} unit="C" />} */}
-          {weather && <WeatherClient weather={weather} />}
-
-          {/* ISS Card */}
-          <ISS city={cityData} iss={iss} />
-          
+          {/* Streaming Components */}
+          <ErrorBoundary errorComponent={ErrorComponent}>
+            <Suspense fallback={<Loading />}>
+              <WikiStream cityWiki={cityInfo.name} />
+            </Suspense>
+            <Suspense fallback={<Loading />}>
+              <WeatherStream city={cityInfo.name} unit="C" />
+            </Suspense>
+            <Suspense fallback={<Loading />}>
+              <ISSStream city={cityData} />
+            </Suspense>
+          </ErrorBoundary>
         </main>
       </div>
     )

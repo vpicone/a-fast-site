@@ -4,7 +4,7 @@ import Image from "next/image";
 import { CityData } from "@/types/types";
 import { getCityWiki } from "@/lib/actions";
 
-export async function WikiCardServer({ cityWiki }: { cityWiki: string }) {
+export async function WikiStream({ cityWiki }: { cityWiki: string }) {
   const cityData = await getCityWiki(cityWiki);
   return (
     <Card className="bg-zinc-900/50 border-zinc-800 backdrop-blur-sm mb-12">

@@ -1,7 +1,6 @@
 import type React from "react"
 
 import { Cloud, Thermometer, Eye, Wind, Droplets, Sun, Moon, Gauge, Compass, CloudRain } from "lucide-react"
-import type { WeatherData } from "@/types/types"
 import { getWeather } from "@/lib/actions"
 
 interface WeatherServerProps {
@@ -9,7 +8,7 @@ interface WeatherServerProps {
   unit: "C" | "F"
 }
 
-export async function WeatherServer({ city, unit }: WeatherServerProps) {
+export async function WeatherStream({ city, unit }: WeatherServerProps) {
   const weather = await getWeather(city)
   return (
     <div className="relative overflow-hidden bg-gradient-to-br from-orange-900/10 via-yellow-900/10 to-red-900/10 border border-orange-500/20 rounded-3xl p-8 mb-12 backdrop-blur-sm">
